@@ -26,7 +26,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
 
           return RefreshIndicator(
             onRefresh: () async {
-              await context.bloc<TransactionCubit>().getTransactions();
+              await context.read<TransactionCubit>().getTransactions();
             },
             child: ListView(
               children: [

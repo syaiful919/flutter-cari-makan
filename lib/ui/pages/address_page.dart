@@ -160,15 +160,15 @@ class _AddressPageState extends State<AddressPage> {
                         isLoading = true;
                       });
 
-                      await context.bloc<UserCubit>().signUp(
+                      await context.read<UserCubit>().signUp(
                           user, widget.password,
                           pictureFile: widget.pictureFile);
 
-                      UserState state = context.bloc<UserCubit>().state;
+                      UserState state = context.read<UserCubit>().state;
 
                       if (state is UserLoaded) {
-                        context.bloc<FoodCubit>().getFoods();
-                        context.bloc<TransactionCubit>().getTransactions();
+                        context.read<FoodCubit>().getFoods();
+                        context.read<TransactionCubit>().getTransactions();
                         Get.to(MainPage());
                       } else {
                         Get.snackbar("", "",

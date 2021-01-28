@@ -349,7 +349,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       });
 
                       String paymentURL = await context
-                          .bloc<TransactionCubit>()
+                          .read<TransactionCubit>()
                           .submitTransaction(widget.transaction.copyWith(
                               dateTime: DateTime.now(),
                               total: (widget.transaction.total * 1.1).toInt() +
