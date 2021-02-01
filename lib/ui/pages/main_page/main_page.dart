@@ -2,13 +2,13 @@ import 'package:animations/animations.dart';
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/ui/components/base/non_scallable_container.dart';
 import 'package:carimakan/ui/pages/home_page/home_page.dart';
+import 'package:carimakan/ui/pages/main_page/local_components/bottom_navigation_icon.dart';
 import 'package:carimakan/ui/pages/order_history_page/order_history_page.dart';
 import 'package:carimakan/ui/pages/profile_page/profile_page.dart';
 import 'package:carimakan/utils/project_icons.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stacked/stacked.dart';
 
@@ -113,20 +113,6 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
       );
-}
-
-class BottomNavigationIcon extends StatelessWidget {
-  final String iconPath;
-
-  const BottomNavigationIcon(this.iconPath, {Key key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      iconPath,
-      width: IconSize.m,
-      height: IconSize.m,
-    );
-  }
 }
 
 Widget getViewForIndex(int index) {

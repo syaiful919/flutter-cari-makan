@@ -13,8 +13,8 @@ class ProjectConfig {
 
 String baseUrl() {
   if (ProjectConfig.useProd == true) {
-    return 'http://foodmarket-backend.buildwithangga.id/api';
+    return 'https://foodmarket-backend.buildwithangga.id/api/';
   } else {
-    return "http://vast-tundra-16919.herokuapp.com/api";
+    return "http://vast-tundra-16919.herokuapp.com/api/";
   }
 }

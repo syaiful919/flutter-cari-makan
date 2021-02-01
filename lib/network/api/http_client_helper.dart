@@ -29,7 +29,7 @@ class HttpClientHelper {
   }
 
   String _buildUrl({String baseUrl, @required String endpoint}) {
-    return baseUrl ?? _baseUrl + endpoint;
+    return (baseUrl ?? _baseUrl) + endpoint;
   }
 
   Future<dynamic> get({

@@ -8,6 +8,10 @@ import 'package:carimakan/viewmodel/home_viewmodel.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:carimakan/viewmodel/order_history_viewmodel.dart';
 import 'package:carimakan/viewmodel/profile_viewmodel.dart';
+import 'package:carimakan/repository/user_repository.dart';
+import 'package:carimakan/repository/transaction_repository.dart';
+import 'package:carimakan/repository/food_repository.dart';
+
 import 'package:get_it/get_it.dart';
 
 final locator = GetIt.instance;
@@ -26,6 +30,10 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<ImagePickerService>(() => ImagePickerService());
 
   // -------- REPOSITORY -------- //
+  locator.registerLazySingleton<UserRepository>(() => UserRepository());
+  locator.registerLazySingleton<TransactionRepository>(
+      () => TransactionRepository());
+  locator.registerLazySingleton<FoodRepository>(() => FoodRepository());
 
   // -------- NON DISPOSABLE VIEWMODEL -------- //
   locator.registerSingleton<MainViewModel>(MainViewModel());
