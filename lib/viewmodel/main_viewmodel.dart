@@ -1,6 +1,8 @@
 import 'package:stacked/stacked.dart';
+import 'package:carimakan/locator/locator.dart';
+import 'package:carimakan/repository/user_repository.dart';
 
-class MainViewModel extends BaseViewModel {
+class MainViewModel extends StreamViewModel {
   // ------ START OF INDEX TRACKING VIEWMODEL ------ //
 
   int _currentIndex = 0;
@@ -25,6 +27,18 @@ class MainViewModel extends BaseViewModel {
   bool isIndexSelected(int index) => _currentIndex == index;
 
   // ------ END OF INDEX TRACKING VIEWMODEL ------ //
+  final _userRepo = locator<UserRepository>();
 
   void firstLoad() {}
+
+  void setPageIndex(int index) {
+    if (index != 0 && !data) {
+      print(">>> user not logged in");
+    } else {
+      setIndex(index);
+    }
+  }
+
+  @override
+  Stream get stream => _userRepo.isLogin;
 }

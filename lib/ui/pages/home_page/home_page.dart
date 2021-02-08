@@ -6,7 +6,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
-      onModelReady: (model) => model.firstLoad(context: context),
+      onModelReady: (model) => model.firstLoad(),
       viewModelBuilder: () => HomeViewModel(),
       builder: (_, model, __) => Scaffold(
         body: Center(

@@ -82,7 +82,7 @@ class _MainPageState extends State<MainPage> {
                 ),
                 bottomNavigationBar: NonScallableContainer(
                   child: BottomNavigationBar(
-                    onTap: model.setIndex,
+                    onTap: model.setPageIndex,
                     currentIndex: model.currentIndex,
                     backgroundColor: ProjectColor.white1,
                     showSelectedLabels: false,

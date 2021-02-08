@@ -1,6 +1,5 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
-import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/model/response/transaction_response_model.dart';
@@ -12,14 +11,11 @@ class OrderHistoryViewModel extends BaseViewModel {
   final _transactionRepo = locator<TransactionRepository>();
   final _userRepo = locator<UserRepository>();
 
-  BuildContext pageContext;
-
   String userToken;
 
   List<TransactionModel> transactions;
 
-  Future<void> firstLoad({BuildContext context}) async {
-    if (pageContext == null && context != null) pageContext = context;
+  Future<void> firstLoad() async {
     await getUserToken();
     if (userToken != null) runBusyFuture(getTransaction());
   }

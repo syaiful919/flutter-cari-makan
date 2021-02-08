@@ -6,7 +6,7 @@ class OrderHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<OrderHistoryViewModel>.reactive(
-      onModelReady: (model) => model.firstLoad(context: context),
+      onModelReady: (model) => model.firstLoad(),
       viewModelBuilder: () => OrderHistoryViewModel(),
       builder: (_, model, __) => Scaffold(
         body: Center(

@@ -1,23 +1,52 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/food_model.dart';
+import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/response/food_response_model.dart';
+import 'package:carimakan/model/response/user_response_model.dart';
+
 import 'package:carimakan/service/navigation/navigation_service.dart';
-import 'package:flutter/material.dart';
+import 'package:carimakan/utils/project_exception.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:carimakan/repository/food_repository.dart';
+import 'package:carimakan/repository/user_repository.dart';
 
 class HomeViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
   final _foodRepo = locator<FoodRepository>();
-
-  BuildContext pageContext;
+  final _userRepo = locator<UserRepository>();
 
   List<FoodModel> foods;
+  UserModel user;
+  String userToken;
 
-  Future<void> firstLoad({BuildContext context}) async {
-    if (pageContext == null && context != null) pageContext = context;
+  Future<void> firstLoad() async {
     runBusyFuture(getFood());
+    await getUserToken();
+    if (userToken != null) runBusyFuture(getUserData());
+  }
+
+  Future<void> getUserToken() async {
+    try {
+      userToken = _userRepo.getUserToken();
+    } catch (e) {
+      print(">>> get user token error: $e");
+    }
+  }
+
+  Future<void> getUserData() async {
+    try {
+      UserResponseModel result =
+          await _userRepo.getUserDataRemote(token: userToken);
+      if (result.data != null) {
+        user = result.data;
+        _userRepo.setIsLogin(true);
+      }
+    } on UnauthorizedException {
+      _userRepo.setIsLogin(false);
+    } catch (e) {
+      print(">>> get user error: $e");
+    }
   }
 
   Future<void> getFood() async {
