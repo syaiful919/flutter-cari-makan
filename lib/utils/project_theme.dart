@@ -11,6 +11,8 @@ class ProjectColor {
   static const Color black2 = Color(0xff020202);
   static const Color grey1 = Colors.grey;
   static const Color grey2 = Color(0xff8D92A3);
+  static const Color grey3 = Color(0xfff2f2f2);
+
   static const Color red1 = Colors.red;
   static const Color red2 = Color(0xffD9435E);
   static const Color green1 = Colors.green;
@@ -19,9 +21,9 @@ class ProjectColor {
 
 class Gap {
   static const double zero = 0;
-  static const double xxs = 2;
-  static const double xs = 4;
-  static const double s = 8;
+  static const double xxs = 4;
+  static const double xs = 6;
+  static const double s = 12;
   static const double m = 16;
   static const double main = 24;
   static const double l = 32;
@@ -37,14 +39,55 @@ class TypoSize {
   static const double secondary = 12;
 }
 
-class TypoStyle {}
+class TypoStyle {
+  static const header1500 = TextStyle(
+    fontSize: TypoSize.header1,
+    color: ProjectColor.black2,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const titleBlack500 = TextStyle(
+    fontSize: TypoSize.title,
+    color: ProjectColor.black2,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const mainBlack = TextStyle(
+    fontSize: TypoSize.main,
+    color: ProjectColor.black2,
+  );
+
+  static const mainBlack500 = TextStyle(
+    fontSize: TypoSize.main,
+    color: ProjectColor.black2,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const mainGrey = TextStyle(
+    fontSize: TypoSize.main,
+    color: ProjectColor.grey2,
+  );
+
+  static const mainGrey300 = TextStyle(
+    fontSize: TypoSize.main,
+    color: ProjectColor.grey2,
+    fontWeight: FontWeight.w300,
+  );
+
+  static const secondaryGrey = TextStyle(
+    fontSize: TypoSize.secondary,
+    color: ProjectColor.grey2,
+  );
+}
 
 class IconSize {
+  static const double s = 16;
   static const double m = 24;
   static const double l = 32;
 }
 
 class RadiusSize {
+  static const double xs = 2;
   static const double s = 4;
   static const double m = 8;
   static const double l = 16;

@@ -1,3 +1,5 @@
+import 'package:carimakan/utils/shared_value.dart';
+
 class FoodModel {
   FoodModel({
     this.id,
@@ -29,4 +31,19 @@ class FoodModel {
         rate: json["rate"] == null ? null : (json["rate"] as num).toDouble(),
         types: json["types"] == null ? null : json["types"],
       );
+
+  List<FoodType> getTypes() {
+    return types.split(',').map((e) {
+      switch (e) {
+        case 'recommended':
+          return FoodType.recommended;
+          break;
+        case 'popular':
+          return FoodType.popular;
+          break;
+        default:
+          return FoodType.new_food;
+      }
+    }).toList();
+  }
 }

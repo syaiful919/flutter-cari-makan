@@ -22,3 +22,5 @@ enum AuthType {
   BEARER,
   BASIC,
 }
+
+enum FoodType { new_food, popular, recommended }
