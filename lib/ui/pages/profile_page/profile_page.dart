@@ -12,7 +12,7 @@ import 'package:stacked_hooks/stacked_hooks.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ProfileViewModel>.nonReactive(
+    return ViewModelBuilder<ProfileViewModel>.reactive(
       disposeViewModel: false,
       initialiseSpecialViewModelsOnce: true,
       fireOnModelReadyOnce: true,
