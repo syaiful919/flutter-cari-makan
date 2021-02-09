@@ -1,3 +1,4 @@
+import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/ui/components/atom/custom_tabbar.dart';
 import 'package:carimakan/ui/components/base/inner_listview.dart';
@@ -17,8 +18,11 @@ class OrderHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<OrderHistoryViewModel>.reactive(
+      disposeViewModel: false,
+      initialiseSpecialViewModelsOnce: true,
+      fireOnModelReadyOnce: true,
       onModelReady: (model) => model.firstLoad(),
-      viewModelBuilder: () => OrderHistoryViewModel(),
+      viewModelBuilder: () => locator<OrderHistoryViewModel>(),
       builder: (_, model, __) => Scaffold(
         body: model.transactions == null
             ? Center(child: Loading())

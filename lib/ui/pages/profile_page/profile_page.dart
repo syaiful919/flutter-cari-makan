@@ -1,3 +1,4 @@
+import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/ui/components/atom/custom_tabbar.dart';
 import 'package:carimakan/ui/components/base/loading.dart';
 import 'package:carimakan/utils/project_images.dart';
@@ -12,8 +13,11 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ProfileViewModel>.nonReactive(
+      disposeViewModel: false,
+      initialiseSpecialViewModelsOnce: true,
+      fireOnModelReadyOnce: true,
       onModelReady: (model) => model.firstLoad(),
-      viewModelBuilder: () => ProfileViewModel(),
+      viewModelBuilder: () => locator<ProfileViewModel>(),
       builder: (_, model, __) => Scaffold(
         body: model.user == null
             ? Center(child: Loading())
@@ -39,7 +43,7 @@ class BodySection extends HookViewModelWidget<ProfileViewModel> {
       child: Column(
         children: <Widget>[
           CustomTabBar(
-            titles: ["Account", "FoodMarket"],
+            titles: ["Account", "App"],
             selectedIndex: selectedIndex.value,
             onTap: (index) {
               selectedIndex.value = index;

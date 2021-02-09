@@ -1,3 +1,4 @@
+import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/food_model.dart';
 import 'package:carimakan/ui/components/base/inner_listview.dart';
 import 'package:carimakan/ui/components/base/loading.dart';
@@ -18,8 +19,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
+      disposeViewModel: false,
+      initialiseSpecialViewModelsOnce: true,
+      fireOnModelReadyOnce: true,
       onModelReady: (model) => model.firstLoad(),
-      viewModelBuilder: () => HomeViewModel(),
+      viewModelBuilder: () => locator<HomeViewModel>(),
       builder: (_, model, __) {
         return Scaffold(
           // backgroundColor: ProjectColor.white1,
