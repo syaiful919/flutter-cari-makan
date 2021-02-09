@@ -21,6 +21,7 @@ class BaseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 45,
+      width: double.infinity,
       child: RaisedButton(
         onPressed: disabled ? null : onPressed,
         color: color ?? ProjectColor.main,
@@ -29,7 +30,11 @@ class BaseButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(RadiusSize.m)),
         child: Text(
           title,
-          style: titleColor ?? TypoStyle.mainBlack500,
+          style: TextStyle(
+            color: titleColor ?? ProjectColor.black2,
+            fontSize: TypoSize.main,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

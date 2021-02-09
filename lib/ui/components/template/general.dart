@@ -48,7 +48,7 @@ class General extends StatelessWidget {
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.only(right: Gap.main),
-                                  child: Icon(Icons.arrow_forward_ios,
+                                  child: Icon(Icons.arrow_back_ios,
                                       color: ProjectColor.grey2),
                                 ),
                               )
