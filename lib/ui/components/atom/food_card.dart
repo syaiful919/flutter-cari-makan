@@ -5,51 +5,57 @@ import 'package:carimakan/ui/components/atom/rating_stars.dart';
 
 class FoodCard extends StatelessWidget {
   final FoodModel food;
+  final Function(FoodModel) onTap;
 
-  FoodCard(this.food);
+  FoodCard(this.food, {this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 210,
-      decoration: BoxDecoration(
-        color: ProjectColor.white1,
-        borderRadius: BorderRadius.circular(RadiusSize.m),
-        boxShadow: [
-          BoxShadow(
-              spreadRadius: 3,
-              blurRadius: 15,
-              color: ProjectColor.black1.withOpacity(0.12))
-        ],
-      ),
-      child: Column(
-        children: [
-          Container(
-            height: 140,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(RadiusSize.m),
-                  topRight: Radius.circular(RadiusSize.m)),
-              image: DecorationImage(
-                  image: NetworkImage(food.picturePath), fit: BoxFit.cover),
+    return GestureDetector(
+      onTap: () {
+        if (onTap != null) onTap(food);
+      },
+      child: Container(
+        width: 200,
+        height: 210,
+        decoration: BoxDecoration(
+          color: ProjectColor.white1,
+          borderRadius: BorderRadius.circular(RadiusSize.m),
+          boxShadow: [
+            BoxShadow(
+                spreadRadius: 3,
+                blurRadius: 15,
+                color: ProjectColor.black1.withOpacity(0.12))
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: 140,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(RadiusSize.m),
+                    topRight: Radius.circular(RadiusSize.m)),
+                image: DecorationImage(
+                    image: NetworkImage(food.picturePath), fit: BoxFit.cover),
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(Gap.s, Gap.s, Gap.s, Gap.xs),
-            width: 200,
-            child: Text(
-              food.name,
-              style: TypoStyle.titleBlack500,
-              maxLines: 1,
-              overflow: TextOverflow.clip,
+            Container(
+              margin: EdgeInsets.fromLTRB(Gap.s, Gap.s, Gap.s, Gap.xs),
+              width: 200,
+              child: Text(
+                food.name,
+                style: TypoStyle.titleBlack500,
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: Gap.s),
-            child: RatingStars(food.rate),
-          )
-        ],
+            Padding(
+              padding: EdgeInsets.only(left: Gap.s),
+              child: RatingStars(food.rate),
+            )
+          ],
+        ),
       ),
     );
   }

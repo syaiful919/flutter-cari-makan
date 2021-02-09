@@ -5,6 +5,7 @@ import 'package:carimakan/model/response/food_response_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 
 import 'package:carimakan/service/navigation/navigation_service.dart';
+import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:carimakan/utils/project_exception.dart';
 import 'package:stacked/stacked.dart';
 
@@ -61,6 +62,13 @@ class HomeViewModel extends BaseViewModel {
     } catch (e) {
       print(">>> get food error: $e");
     }
+  }
+
+  void goToFoodDetail(FoodModel food) {
+    _nav.pushNamed(
+      Routes.foodDetailPage,
+      arguments: FoodDetailPageArguments(food: food),
+    );
   }
 
   void goBack() => _nav.pop();

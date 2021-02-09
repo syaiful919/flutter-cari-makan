@@ -11,7 +11,7 @@ class UserApi {
     return UserResponseModel.fromJson(result);
   }
 
-  Future<void> logout({@required String token}) async {
+  Future<void> signOut({@required String token}) async {
     await _helper.post(endpoint: "logout", bearerToken: token);
   }
 }

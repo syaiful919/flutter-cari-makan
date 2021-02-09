@@ -75,7 +75,11 @@ class FoodTabSection extends HookViewModelWidget<HomeViewModel> {
                 itemCount: foods.length,
                 itemBuilder: (_, i) => Padding(
                   padding: EdgeInsets.fromLTRB(Gap.main, 0, Gap.main, Gap.m),
-                  child: FoodListItem(food: foods[i], itemWidth: listItemWidth),
+                  child: FoodListItem(
+                    food: foods[i],
+                    itemWidth: listItemWidth,
+                    onTap: (food) => model.goToFoodDetail(food),
+                  ),
                 ),
               );
             } else {
@@ -104,9 +108,9 @@ class FoodListSection extends ViewModelWidget<HomeViewModel> {
               itemBuilder: (_, i) => Padding(
                 padding: EdgeInsets.fromLTRB(
                     i == 0 ? Gap.main : 0, Gap.main, Gap.main, Gap.main),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: FoodCard(model.foods[i]),
+                child: FoodCard(
+                  model.foods[i],
+                  onTap: (food) => model.goToFoodDetail(food),
                 ),
               ),
               scrollDirection: Axis.horizontal,

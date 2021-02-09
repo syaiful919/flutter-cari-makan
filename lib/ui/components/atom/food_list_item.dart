@@ -6,45 +6,51 @@ import 'package:intl/intl.dart';
 
 class FoodListItem extends StatelessWidget {
   final FoodModel food;
+  final Function(FoodModel) onTap;
   final double itemWidth;
 
-  FoodListItem({@required this.food, @required this.itemWidth});
+  FoodListItem({@required this.food, @required this.itemWidth, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          margin: EdgeInsets.only(right: Gap.s),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(RadiusSize.m),
-              image: DecorationImage(
-                  image: NetworkImage(food.picturePath), fit: BoxFit.cover)),
-        ),
-        SizedBox(
-          width: itemWidth - 182, // (60 + Gap.s (12) + 110)
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                food.name,
-                style: TypoStyle.titleBlack500,
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-              ),
-              Text(
-                NumberFormat.currency(
-                        symbol: 'IDR ', decimalDigits: 0, locale: 'id-ID')
-                    .format(food.price),
-                style: TypoStyle.secondaryGrey,
-              )
-            ],
+    return GestureDetector(
+      onTap: () {
+        if (onTap != null) onTap(food);
+      },
+      child: Row(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            margin: EdgeInsets.only(right: Gap.s),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(RadiusSize.m),
+                image: DecorationImage(
+                    image: NetworkImage(food.picturePath), fit: BoxFit.cover)),
           ),
-        ),
-        RatingStars(food.rate)
-      ],
+          SizedBox(
+            width: itemWidth - 182, // (60 + Gap.s (12) + 110)
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  food.name,
+                  style: TypoStyle.titleBlack500,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  NumberFormat.currency(
+                          symbol: 'IDR ', decimalDigits: 0, locale: 'id-ID')
+                      .format(food.price),
+                  style: TypoStyle.secondaryGrey,
+                )
+              ],
+            ),
+          ),
+          RatingStars(food.rate)
+        ],
+      ),
     );
   }
 }

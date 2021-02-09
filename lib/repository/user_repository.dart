@@ -44,7 +44,7 @@ class UserRepository {
   void removeUserToken() => _sp.clearKey(PrefKey.userToken);
 
   Future<void> removeSession({@required String token}) {
-    return _api.logout(token: token);
+    return _api.signOut(token: token);
   }
 
   void logout({@required String token}) {

@@ -8,11 +8,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:carimakan/ui/pages/main_page/main_page.dart';
+import 'package:carimakan/ui/pages/food_detail_page/food_detail_page.dart';
+import 'package:carimakan/model/entity/food_model.dart';
+import 'package:carimakan/ui/pages/sign_in_page/sign_in_page.dart';
+import 'package:carimakan/ui/pages/sign_up_page/sign_up_page.dart';
+import 'package:carimakan/ui/pages/address_page/address_page.dart';
+import 'package:carimakan/model/request/sign_up_request_model.dart';
+import 'package:carimakan/ui/pages/checkout_page/checkout_page.dart';
+import 'package:carimakan/model/request/transaction_request_model.dart';
 
 abstract class Routes {
   static const mainPage = '/';
+  static const foodDetailPage = '/food-detail-page';
+  static const signInPage = '/sign-in-page';
+  static const signUpPage = '/sign-up-page';
+  static const addressPage = '/address-page';
+  static const checkoutPage = '/checkout-page';
   static const all = {
     mainPage,
+    foodDetailPage,
+    signInPage,
+    signUpPage,
+    addressPage,
+    checkoutPage,
   };
 }
 
@@ -26,14 +44,84 @@ class Router extends RouterBase {
 
   @override
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    final args = settings.arguments;
     switch (settings.name) {
       case Routes.mainPage:
         return MaterialPageRoute<dynamic>(
           builder: (context) => MainPage(),
           settings: settings,
         );
+      case Routes.foodDetailPage:
+        if (hasInvalidArgs<FoodDetailPageArguments>(args)) {
+          return misTypedArgsRoute<FoodDetailPageArguments>(args);
+        }
+        final typedArgs =
+            args as FoodDetailPageArguments ?? FoodDetailPageArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (context) =>
+              FoodDetailPage(key: typedArgs.key, food: typedArgs.food),
+          settings: settings,
+        );
+      case Routes.signInPage:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => SignInPage(),
+          settings: settings,
+        );
+      case Routes.signUpPage:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => SignUpPage(),
+          settings: settings,
+        );
+      case Routes.addressPage:
+        if (hasInvalidArgs<AddressPageArguments>(args)) {
+          return misTypedArgsRoute<AddressPageArguments>(args);
+        }
+        final typedArgs =
+            args as AddressPageArguments ?? AddressPageArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => AddressPage(
+              key: typedArgs.key, signUpRequest: typedArgs.signUpRequest),
+          settings: settings,
+        );
+      case Routes.checkoutPage:
+        if (hasInvalidArgs<CheckoutPageArguments>(args)) {
+          return misTypedArgsRoute<CheckoutPageArguments>(args);
+        }
+        final typedArgs =
+            args as CheckoutPageArguments ?? CheckoutPageArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => CheckoutPage(
+              key: typedArgs.key,
+              transactionRequest: typedArgs.transactionRequest),
+          settings: settings,
+        );
       default:
         return unknownRoutePage(settings.name);
     }
   }
+}
+
+// *************************************************************************
+// Arguments holder classes
+// **************************************************************************
+
+//FoodDetailPage arguments holder class
+class FoodDetailPageArguments {
+  final Key key;
+  final FoodModel food;
+  FoodDetailPageArguments({this.key, this.food});
+}
+
+//AddressPage arguments holder class
+class AddressPageArguments {
+  final Key key;
+  final SignUpRequestModel signUpRequest;
+  AddressPageArguments({this.key, this.signUpRequest});
+}
+
+//CheckoutPage arguments holder class
+class CheckoutPageArguments {
+  final Key key;
+  final TransactionRequestModel transactionRequest;
+  CheckoutPageArguments({this.key, this.transactionRequest});
 }

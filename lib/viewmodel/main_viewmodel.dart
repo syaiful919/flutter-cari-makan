@@ -1,3 +1,5 @@
+import 'package:carimakan/service/navigation/navigation_service.dart';
+import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/repository/user_repository.dart';
@@ -27,16 +29,21 @@ class MainViewModel extends StreamViewModel {
   bool isIndexSelected(int index) => _currentIndex == index;
 
   // ------ END OF INDEX TRACKING VIEWMODEL ------ //
+  final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
 
   void firstLoad() {}
 
   void setPageIndex(int index) {
     if (index != 0 && !data) {
-      print(">>> user not logged in");
+      goToSignInPage();
     } else {
       setIndex(index);
     }
+  }
+
+  void goToSignInPage() {
+    _nav.pushNamed(Routes.signInPage);
   }
 
   @override
