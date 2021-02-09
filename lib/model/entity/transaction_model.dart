@@ -1,5 +1,6 @@
 import 'package:carimakan/model/entity/food_model.dart';
 import 'package:carimakan/model/entity/user_model.dart';
+import 'package:carimakan/utils/shared_value.dart';
 
 class TransactionModel {
   TransactionModel({
@@ -12,6 +13,7 @@ class TransactionModel {
     this.paymentUrl,
     this.food,
     this.user,
+    this.createdAt,
   });
 
   int id;
@@ -23,6 +25,7 @@ class TransactionModel {
   String paymentUrl;
   FoodModel food;
   UserModel user;
+  DateTime createdAt;
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) =>
       TransactionModel(
@@ -35,5 +38,18 @@ class TransactionModel {
         paymentUrl: json["payment_url"] == null ? null : json["payment_url"],
         food: json["food"] == null ? null : FoodModel.fromJson(json["food"]),
         user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(json['created_at']),
       );
+
+  TransactionStatus getStatus() {
+    return (status == 'PENDING')
+        ? TransactionStatus.pending
+        : (status == 'DELIVERED')
+            ? TransactionStatus.delivered
+            : (status == 'CANCELLED')
+                ? TransactionStatus.cancelled
+                : TransactionStatus.on_delivery;
+  }
 }

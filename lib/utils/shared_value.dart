@@ -24,3 +24,4 @@ enum AuthType {
 }
 
 enum FoodType { new_food, popular, recommended }
+enum TransactionStatus { delivered, on_delivery, pending, cancelled }

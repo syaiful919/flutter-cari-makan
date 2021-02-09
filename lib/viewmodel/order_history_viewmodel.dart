@@ -36,7 +36,7 @@ class OrderHistoryViewModel extends BaseViewModel {
     try {
       TransactionResponseModel result =
           await _transactionRepo.getTransaction(token: userToken);
-      if (result.data.transactions.length > 0) {
+      if (result.data.transactions != null) {
         transactions = result.data.transactions;
       }
     } catch (e) {

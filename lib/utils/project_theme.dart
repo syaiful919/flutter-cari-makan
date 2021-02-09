@@ -37,6 +37,7 @@ class TypoSize {
   static const double title = 16;
   static const double main = 14;
   static const double secondary = 12;
+  static const double small = 10;
 }
 
 class TypoStyle {
@@ -93,6 +94,16 @@ class TypoStyle {
   static const secondaryGrey = TextStyle(
     fontSize: TypoSize.secondary,
     color: ProjectColor.grey2,
+  );
+
+  static const smallRed = TextStyle(
+    fontSize: TypoSize.small,
+    color: ProjectColor.red2,
+  );
+
+  static const smallGreen = TextStyle(
+    fontSize: TypoSize.small,
+    color: ProjectColor.green2,
   );
 }
 
