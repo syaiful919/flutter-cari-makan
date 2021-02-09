@@ -71,6 +71,10 @@ class AccountTabSection extends ViewModelWidget<ProfileViewModel> {
           title: "Home Address",
           onTap: () {},
         ),
+        ProfileItem(
+          title: "Log out",
+          onTap: () => model.logout(),
+        ),
       ],
     );
   }

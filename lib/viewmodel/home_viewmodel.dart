@@ -12,7 +12,7 @@ import 'package:stacked/stacked.dart';
 import 'package:carimakan/repository/food_repository.dart';
 import 'package:carimakan/repository/user_repository.dart';
 
-class HomeViewModel extends BaseViewModel {
+class HomeViewModel extends StreamViewModel {
   final _nav = locator<NavigationService>();
   final _foodRepo = locator<FoodRepository>();
   final _userRepo = locator<UserRepository>();
@@ -21,13 +21,26 @@ class HomeViewModel extends BaseViewModel {
   UserModel user;
   String userToken;
 
+  @override
+  Stream get stream => _userRepo.isLogin;
+
+  @override
+  void onData(data) {
+    super.onData(data);
+    if (!data && user != null) clearUser();
+  }
+
   Future<void> firstLoad() async {
-    // _userRepo.saveUserToken('4385|E33ZzaKrl29fHqSt9YwZ18LGRuFnRiq7soKWL1lR');
-    _userRepo.saveUserToken('4388|cKqDF8MDNHDOs9glIPBNbUaJ8kthFx5c6NwEXTt3');
+    // _userRepo.saveUserToken('4401|KiYOzonnvPnLILZqwsNbZJD0rvqpzFm1QEbH5giq');
 
     runBusyFuture(getFood());
     await getUserToken();
     if (userToken != null) runBusyFuture(getUserData());
+  }
+
+  void clearUser() {
+    user = null;
+    notifyListeners();
   }
 
   Future<void> getUserToken() async {
@@ -70,6 +83,4 @@ class HomeViewModel extends BaseViewModel {
       arguments: FoodDetailPageArguments(food: food),
     );
   }
-
-  void goBack() => _nav.pop();
 }

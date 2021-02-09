@@ -3,16 +3,20 @@ import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/repository/user_repository.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
+import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:stacked/stacked.dart';
+import 'package:carimakan/viewmodel/main_viewmodel.dart';
 
 class ProfileViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
+  final _mainVM = locator<MainViewModel>();
 
   UserModel user;
   String userToken;
 
   Future<void> firstLoad() async {
+    await runBusyFuture(getUserToken());
     runBusyFuture(getUser());
   }
 
@@ -20,9 +24,8 @@ class ProfileViewModel extends BaseViewModel {
     try {
       user = _userRepo.getUserData();
       if (user == null) {
-        await getUserToken();
         if (userToken == null) {
-          // push to login page
+          logout();
         } else {
           UserResponseModel response =
               await _userRepo.getUserDataRemote(token: userToken);
@@ -45,5 +48,14 @@ class ProfileViewModel extends BaseViewModel {
     }
   }
 
-  void goBack() => _nav.pop();
+  void goToSignInPage() {
+    _nav.pushNamed(Routes.signInPage);
+  }
+
+  void goToHome() => _mainVM.setIndex(0);
+
+  void logout() {
+    _userRepo.logout(token: userToken);
+    goToHome();
+  }
 }

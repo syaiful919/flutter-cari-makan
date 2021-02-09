@@ -5,11 +5,13 @@ import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/model/response/transaction_response_model.dart';
 import 'package:carimakan/repository/transaction_repository.dart';
 import 'package:carimakan/repository/user_repository.dart';
+import 'package:carimakan/viewmodel/main_viewmodel.dart';
 
 class OrderHistoryViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
   final _transactionRepo = locator<TransactionRepository>();
   final _userRepo = locator<UserRepository>();
+  final _mainVM = locator<MainViewModel>();
 
   String userToken;
 
@@ -20,7 +22,7 @@ class OrderHistoryViewModel extends BaseViewModel {
     if (userToken != null) {
       runBusyFuture(getTransaction());
     } else {
-      // push to login page
+      logout();
     }
   }
 
@@ -44,5 +46,10 @@ class OrderHistoryViewModel extends BaseViewModel {
     }
   }
 
-  void goBack() => _nav.pop();
+  void logout() {
+    _userRepo.logout(token: userToken);
+    goToHome();
+  }
+
+  void goToHome() => _mainVM.setIndex(0);
 }
