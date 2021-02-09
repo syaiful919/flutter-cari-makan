@@ -17,7 +17,11 @@ class OrderHistoryViewModel extends BaseViewModel {
 
   Future<void> firstLoad() async {
     await getUserToken();
-    if (userToken != null) runBusyFuture(getTransaction());
+    if (userToken != null) {
+      runBusyFuture(getTransaction());
+    } else {
+      // push to login page
+    }
   }
 
   Future<void> getUserToken() async {

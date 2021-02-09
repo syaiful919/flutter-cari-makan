@@ -40,10 +40,21 @@ class TypoSize {
 }
 
 class TypoStyle {
-  static const header1500 = TextStyle(
+  static const header1Black500 = TextStyle(
     fontSize: TypoSize.header1,
     color: ProjectColor.black2,
     fontWeight: FontWeight.w500,
+  );
+
+  static const header2Black = TextStyle(
+    fontSize: TypoSize.header1,
+    color: ProjectColor.black2,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const header2Black500 = TextStyle(
+    fontSize: TypoSize.header1,
+    color: ProjectColor.black2,
   );
 
   static const titleBlack500 = TextStyle(
@@ -60,6 +71,11 @@ class TypoStyle {
   static const mainBlack500 = TextStyle(
     fontSize: TypoSize.main,
     color: ProjectColor.black2,
+    fontWeight: FontWeight.w500,
+  );
+  static const mainWhite500 = TextStyle(
+    fontSize: TypoSize.main,
+    color: ProjectColor.white1,
     fontWeight: FontWeight.w500,
   );
 

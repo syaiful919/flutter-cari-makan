@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
       viewModelBuilder: () => HomeViewModel(),
       builder: (_, model, __) {
         return Scaffold(
+          // backgroundColor: ProjectColor.white1,
           body: ListView(
             children: [
               HeaderSection(),
@@ -126,7 +127,7 @@ class HeaderSection extends ViewModelWidget<HomeViewModel> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Food Market', style: TypoStyle.header1500),
+              Text('Food Market', style: TypoStyle.header1Black500),
               Text("Let's get some foods", style: TypoStyle.mainGrey300),
             ],
           ),
