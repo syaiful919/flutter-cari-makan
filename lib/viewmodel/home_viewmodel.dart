@@ -22,7 +22,7 @@ class HomeViewModel extends BaseViewModel {
 
   Future<void> firstLoad() async {
     // _userRepo.saveUserToken('4385|E33ZzaKrl29fHqSt9YwZ18LGRuFnRiq7soKWL1lR');
-    _userRepo.saveUserToken('4388|cKqDF8MDNHDOs9glIPBNbUaJ8kthFx5c6NwEXTt3');
+    // _userRepo.saveUserToken('4388|cKqDF8MDNHDOs9glIPBNbUaJ8kthFx5c6NwEXTt3');
 
     runBusyFuture(getFood());
     await getUserToken();
