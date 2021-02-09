@@ -3,7 +3,6 @@ import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/repository/user_repository.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:stacked/stacked.dart';
 
 class ProfileViewModel extends BaseViewModel {

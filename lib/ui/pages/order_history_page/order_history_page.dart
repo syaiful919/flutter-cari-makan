@@ -109,9 +109,9 @@ class HeaderSection extends StatelessWidget {
     return Container(
       height: 100,
       width: double.infinity,
+      color: ProjectColor.white1,
       margin: EdgeInsets.only(bottom: Gap.main),
       padding: EdgeInsets.symmetric(horizontal: Gap.main),
-      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
