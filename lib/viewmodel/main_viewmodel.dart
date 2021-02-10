@@ -32,7 +32,24 @@ class MainViewModel extends StreamViewModel {
   final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
 
-  void firstLoad() {}
+  String userToken;
+
+  void firstLoad() {
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() async {
+    await getUserToken();
+    _userRepo.setIsLogin(userToken != null);
+  }
+
+  Future<void> getUserToken() async {
+    try {
+      userToken = _userRepo.getUserToken();
+    } catch (e) {
+      print(">>> get user token error: $e");
+    }
+  }
 
   void setPageIndex(int index) {
     if (index != 0 && !data) {

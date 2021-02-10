@@ -7,7 +7,7 @@ import 'package:stacked/stacked.dart';
 class FoodDetailViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
 
-  BuildContext pageContext;
+  BuildContext _pageContext;
 
   FoodModel _food;
   FoodModel get food => _food;
@@ -16,7 +16,7 @@ class FoodDetailViewModel extends BaseViewModel {
   int get quantity => _quantity;
 
   Future<void> firstLoad({BuildContext context, FoodModel food}) async {
-    if (pageContext == null && context != null) pageContext = context;
+    if (_pageContext == null && context != null) _pageContext = context;
     _food = food;
     notifyListeners();
   }

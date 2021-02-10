@@ -55,7 +55,7 @@ class ProfileViewModel extends BaseViewModel {
   void goToHome() => _mainVM.setIndex(0);
 
   void logout() {
-    _userRepo.logout(token: userToken);
+    _userRepo.logout();
     goToHome();
   }
 }

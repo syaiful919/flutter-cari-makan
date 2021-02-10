@@ -6,10 +6,10 @@ import 'package:stacked/stacked.dart';
 class SignUpViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
 
-  BuildContext pageContext;
+  BuildContext _pageContext;
 
   Future<void> firstLoad({BuildContext context}) async {
-    if (pageContext == null && context != null) pageContext = context;
+    if (_pageContext == null && context != null) _pageContext = context;
   }
 
   void goBack() => _nav.pop();

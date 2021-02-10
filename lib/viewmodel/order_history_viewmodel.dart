@@ -47,7 +47,7 @@ class OrderHistoryViewModel extends BaseViewModel {
   }
 
   void logout() {
-    _userRepo.logout(token: userToken);
+    _userRepo.logout();
     goToHome();
   }
 

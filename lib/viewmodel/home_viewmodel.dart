@@ -28,14 +28,11 @@ class HomeViewModel extends StreamViewModel {
   void onData(data) {
     super.onData(data);
     if (!data && user != null) clearUser();
+    if (data && user == null) getUserData();
   }
 
   Future<void> firstLoad() async {
-    // _userRepo.saveUserToken('4401|KiYOzonnvPnLILZqwsNbZJD0rvqpzFm1QEbH5giq');
-
     runBusyFuture(getFood());
-    await getUserToken();
-    if (userToken != null) runBusyFuture(getUserData());
   }
 
   void clearUser() {
@@ -53,16 +50,23 @@ class HomeViewModel extends StreamViewModel {
 
   Future<void> getUserData() async {
     try {
+      if (userToken == null) await getUserToken();
+      print(">>> token $userToken");
       UserResponseModel result =
           await _userRepo.getUserDataRemote(token: userToken);
-      if (result.data != null) {
+      if (result?.data != null) {
         user = result.data;
-        _userRepo.setIsLogin(true);
+        _userRepo.saveUserData(user);
+      } else {
+        user = _userRepo.getUserData();
       }
     } on UnauthorizedException {
       _userRepo.setIsLogin(false);
+      clearUser();
     } catch (e) {
       print(">>> get user error: $e");
+    } finally {
+      notifyListeners();
     }
   }
 

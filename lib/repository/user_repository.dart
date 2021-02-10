@@ -7,12 +7,19 @@ import 'package:carimakan/network/api/user_api.dart';
 import 'package:carimakan/service/shared_preferences/pref_keys.dart';
 import 'package:carimakan/service/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:carimakan/model/request/sign_in_request_model.dart';
 
 import 'package:carimakan/locator/locator.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:carimakan/model/response/sign_in_response_model.dart';
+import 'package:carimakan/model/response/sign_out_response_model.dart';
 
 class UserRepository {
   final UserApi _api = UserApi();
+
+  Future<SignInResponseModel> signIn({@required SignInRequestModel request}) {
+    return _api.signIn(request: request);
+  }
 
   Future<UserResponseModel> getUserDataRemote({@required String token}) {
     return _api.getUser(token: token);
@@ -43,14 +50,15 @@ class UserRepository {
   void removeUserData() => _sp.clearKey(PrefKey.userData);
   void removeUserToken() => _sp.clearKey(PrefKey.userToken);
 
-  Future<void> removeSession({@required String token}) {
-    return _api.signOut(token: token);
+  Future<void> removeSession({@required String token}) async {
+    SignOutResponseModel result = await _api.signOut(token: token);
+    print("session removed ${result?.data}");
   }
 
-  void logout({@required String token}) {
+  void logout() {
     removeUserToken();
     removeUserData();
     setIsLogin(false);
-    removeSession(token: token);
+    // removeSession(token: token);
   }
 }
