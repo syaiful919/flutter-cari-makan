@@ -103,17 +103,24 @@ class CheckoutViewModel extends BaseViewModel {
       print(checkoutRequestModelToJson(request));
       CheckoutResponseModel result =
           await _transactionRepo.checkout(request: request, token: _userToken);
-      print(result.data.id);
 
       toggleTryingToCheckout();
-      _transactionRepo.setIsNeedReloadTransaction(true);
-      _nav.pushNamedAndRemoveUntil(Routes.mainPage);
+      afterCheckout(result.data);
     } catch (e) {
       print(">>> checkout error $e");
       toggleTryingToCheckout();
       _flush.showFlushbar(
           context: _pageContext, message: "Checkout failed, try again later");
     }
+  }
+
+  void afterCheckout(CheckoutResponseData data) {
+    _transactionRepo.setIsNeedReloadTransaction(true);
+    _nav.pushNamedAndRemoveUntil(Routes.mainPage);
+    _nav.pushNamed(
+      Routes.afterCheckoutPage,
+      arguments: AfterCheckoutPageArguments(paymentUrl: data.paymentUrl),
+    );
   }
 
   void goBack() => _nav.pop();

@@ -97,8 +97,10 @@ class BodySection extends HookViewModelWidget<OrderHistoryViewModel> {
                         padding:
                             EdgeInsets.fromLTRB(Gap.main, 0, Gap.main, Gap.m),
                         child: OrderListItem(
-                            transaction: transactions[i],
-                            itemWidth: listItemWidth),
+                          transaction: transactions[i],
+                          itemWidth: listItemWidth,
+                          onTap: (val) => model.goToDetail(val),
+                        ),
                       ),
                     );
             } else {

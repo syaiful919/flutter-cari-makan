@@ -5,6 +5,8 @@ import 'package:carimakan/ui/pages/sign_in_page/sign_in_page.dart';
 import 'package:carimakan/ui/pages/sign_up_page/sign_up_page.dart';
 import 'package:carimakan/ui/pages/address_page/address_page.dart';
 import 'package:carimakan/ui/pages/checkout_page/checkout_page.dart';
+import 'package:carimakan/ui/pages/after_checkout_page/after_checkout_page.dart';
+import 'package:carimakan/ui/pages/order_detail_page/order_detail_page.dart';
 
 @MaterialAutoRouter()
 class $Router {
@@ -15,4 +17,6 @@ class $Router {
   SignUpPage signUpPage;
   AddressPage addressPage;
   CheckoutPage checkoutPage;
+  OrderDetailPage orderDetailPage;
+  AfterCheckoutPage afterCheckoutPage;
 }

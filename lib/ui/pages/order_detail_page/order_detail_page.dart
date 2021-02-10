@@ -1,56 +1,62 @@
 import 'package:carimakan/model/entity/transaction_model.dart';
-import 'package:carimakan/ui/components/base/base_button.dart';
 import 'package:carimakan/ui/components/atom/detail_list_item.dart';
-
+import 'package:carimakan/ui/components/base/base_button.dart';
 import 'package:carimakan/ui/components/base/shrink_column.dart';
 import 'package:carimakan/ui/components/template/general.dart';
 import 'package:carimakan/utils/project_theme.dart';
-import 'package:carimakan/viewmodel/checkout_viewmodel.dart';
+import 'package:carimakan/utils/shared_value.dart';
+import 'package:carimakan/viewmodel/order_detail_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/extension/extended_num.dart';
+import 'package:carimakan/extension/extended_datetime.dart';
 
-class CheckoutPage extends StatelessWidget {
+class OrderDetailPage extends StatelessWidget {
   final TransactionModel transaction;
 
-  const CheckoutPage({Key key, this.transaction}) : super(key: key);
+  const OrderDetailPage({Key key, this.transaction}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<CheckoutViewModel>.reactive(
+    return ViewModelBuilder<OrderDetailViewModel>.reactive(
       onModelReady: (model) => model.firstLoad(
         context: context,
         transaction: transaction,
       ),
-      viewModelBuilder: () => CheckoutViewModel(),
+      viewModelBuilder: () => OrderDetailViewModel(),
       builder: (_, model, __) => General(
-        title: 'Payment',
-        subtitle: 'You deserve better meal',
+        title: 'Order Detail',
+        subtitle: 'Your best choice',
         onBackButtonPressed: () => model.goBack(),
         child: Container(
           color: ProjectColor.white2,
-          child: Column(
-            children: <Widget>[
-              if (model.transaction != null) ItemSection(),
-              if (model.user != null) AddressSection(),
-              if (model.transaction != null && model.user != null)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      Gap.main, Gap.zero, Gap.main, Gap.main),
-                  child: BaseButton(
-                    onPressed: () => model.checkout(),
-                    loading: model.tryingToCheckout,
-                    title: "Checkout Now",
-                  ),
-                )
-            ],
-          ),
+          child: model.transaction == null
+              ? Container()
+              : Column(
+                  children: <Widget>[
+                    StatusSection(),
+                    ItemSection(),
+                    AddressSection(),
+                    if (model.transaction.getStatus() ==
+                        TransactionStatus.pending)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                            Gap.main, Gap.zero, Gap.main, Gap.main),
+                        child: BaseButton(
+                          color: ProjectColor.red2,
+                          titleColor: ProjectColor.white1,
+                          onPressed: () => model.pay(),
+                          title: "Continue Payment",
+                        ),
+                      )
+                  ],
+                ),
         ),
       ),
     );
   }
 }
 
-class ItemSection extends ViewModelWidget<CheckoutViewModel> {
+class ItemSection extends ViewModelWidget<OrderDetailViewModel> {
   @override
   Widget build(context, model) {
     return Container(
@@ -133,7 +139,7 @@ class ItemSection extends ViewModelWidget<CheckoutViewModel> {
   }
 }
 
-class AddressSection extends ViewModelWidget<CheckoutViewModel> {
+class AddressSection extends ViewModelWidget<OrderDetailViewModel> {
   @override
   Widget build(context, model) {
     return Container(
@@ -144,15 +150,50 @@ class AddressSection extends ViewModelWidget<CheckoutViewModel> {
         children: <Widget>[
           Text('Deliver to', style: TypoStyle.mainBlack),
           SizedBox(height: Gap.s),
-          DetailListItem(title: "Name", value: model.user.name),
+          DetailListItem(title: "Name", value: model.transaction.user.name),
           SizedBox(height: Gap.xs),
-          DetailListItem(title: "Phone No", value: model.user.phoneNumber),
+          DetailListItem(
+              title: "Phone No", value: model.transaction.user.phoneNumber),
           SizedBox(height: Gap.xs),
-          DetailListItem(title: "Address", value: model.user.address),
+          DetailListItem(
+              title: "Address", value: model.transaction.user.address),
           SizedBox(height: Gap.xs),
-          DetailListItem(title: "House No", value: model.user.houseNumber),
+          DetailListItem(
+              title: "House No", value: model.transaction.user.houseNumber),
           SizedBox(height: Gap.xs),
-          DetailListItem(title: "City", value: model.user.city),
+          DetailListItem(title: "City", value: model.transaction.user.city),
+        ],
+      ),
+    );
+  }
+}
+
+class StatusSection extends ViewModelWidget<OrderDetailViewModel> {
+  @override
+  Widget build(context, model) {
+    return Container(
+      color: ProjectColor.white1,
+      margin: EdgeInsets.only(bottom: Gap.main),
+      padding: EdgeInsets.symmetric(horizontal: Gap.main, vertical: Gap.m),
+      child: ShrinkColumn.start(
+        children: <Widget>[
+          Text('Order Status', style: TypoStyle.mainBlack),
+          SizedBox(height: Gap.s),
+          DetailListItem(title: "Order ID", value: "#${model.transaction.id}"),
+          SizedBox(height: Gap.xs),
+          DetailListItem(
+              title: "Order date", value: model.transaction.createdAt.format()),
+          SizedBox(height: Gap.xs),
+          DetailListItem(
+            title: "Status",
+            value: model.transaction.status.toUpperCase(),
+            valueColor:
+                model.transaction.getStatus() == TransactionStatus.delivered ||
+                        model.transaction.getStatus() ==
+                            TransactionStatus.on_delivery
+                    ? ProjectColor.green2
+                    : ProjectColor.red2,
+          ),
         ],
       ),
     );

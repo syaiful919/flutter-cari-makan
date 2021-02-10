@@ -16,6 +16,8 @@ import 'package:carimakan/ui/pages/address_page/address_page.dart';
 import 'package:carimakan/model/request/sign_up_request_model.dart';
 import 'package:carimakan/ui/pages/checkout_page/checkout_page.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
+import 'package:carimakan/ui/pages/order_detail_page/order_detail_page.dart';
+import 'package:carimakan/ui/pages/after_checkout_page/after_checkout_page.dart';
 
 abstract class Routes {
   static const mainPage = '/';
@@ -24,6 +26,8 @@ abstract class Routes {
   static const signUpPage = '/sign-up-page';
   static const addressPage = '/address-page';
   static const checkoutPage = '/checkout-page';
+  static const orderDetailPage = '/order-detail-page';
+  static const afterCheckoutPage = '/after-checkout-page';
   static const all = {
     mainPage,
     foodDetailPage,
@@ -31,6 +35,8 @@ abstract class Routes {
     signUpPage,
     addressPage,
     checkoutPage,
+    orderDetailPage,
+    afterCheckoutPage,
   };
 }
 
@@ -94,6 +100,28 @@ class Router extends RouterBase {
               key: typedArgs.key, transaction: typedArgs.transaction),
           settings: settings,
         );
+      case Routes.orderDetailPage:
+        if (hasInvalidArgs<OrderDetailPageArguments>(args)) {
+          return misTypedArgsRoute<OrderDetailPageArguments>(args);
+        }
+        final typedArgs =
+            args as OrderDetailPageArguments ?? OrderDetailPageArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => OrderDetailPage(
+              key: typedArgs.key, transaction: typedArgs.transaction),
+          settings: settings,
+        );
+      case Routes.afterCheckoutPage:
+        if (hasInvalidArgs<AfterCheckoutPageArguments>(args)) {
+          return misTypedArgsRoute<AfterCheckoutPageArguments>(args);
+        }
+        final typedArgs =
+            args as AfterCheckoutPageArguments ?? AfterCheckoutPageArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => AfterCheckoutPage(
+              key: typedArgs.key, paymentUrl: typedArgs.paymentUrl),
+          settings: settings,
+        );
       default:
         return unknownRoutePage(settings.name);
     }
@@ -123,4 +151,18 @@ class CheckoutPageArguments {
   final Key key;
   final TransactionModel transaction;
   CheckoutPageArguments({this.key, this.transaction});
+}
+
+//OrderDetailPage arguments holder class
+class OrderDetailPageArguments {
+  final Key key;
+  final TransactionModel transaction;
+  OrderDetailPageArguments({this.key, this.transaction});
+}
+
+//AfterCheckoutPage arguments holder class
+class AfterCheckoutPageArguments {
+  final Key key;
+  final String paymentUrl;
+  AfterCheckoutPageArguments({this.key, this.paymentUrl});
 }

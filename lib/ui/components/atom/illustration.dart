@@ -1,3 +1,4 @@
+import 'package:carimakan/ui/components/base/shrink_column.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:carimakan/ui/components/base/base_button.dart';
@@ -24,15 +25,15 @@ class Illustration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: ShrinkColumn(
         children: [
           Container(
-            width: 150,
-            height: 150,
+            width: MediaQuery.of(context).size.width - 2 * Gap.xl,
             margin: EdgeInsets.only(bottom: Gap.xl),
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(picturePath)),
+            child: Image.asset(
+              picturePath,
+              fit: BoxFit.fitHeight,
+              height: 150,
             ),
           ),
           Text(title, style: TypoStyle.header2Black),
@@ -44,10 +45,20 @@ class Illustration extends StatelessWidget {
           Container(
               margin: EdgeInsets.only(top: Gap.l, bottom: Gap.s),
               width: 200,
-              height: 45,
-              child: BaseButton(onPressed: buttonTap1, title: buttonTitle1)),
+              child: BaseButton(
+                onPressed: buttonTap1,
+                title: buttonTitle1,
+              )),
           (buttonTap2 != null && buttonTitle2 != null)
-              ? BaseButton(onPressed: buttonTap2, title: buttonTitle2)
+              ? SizedBox(
+                  width: 200,
+                  child: BaseButton(
+                    onPressed: buttonTap2,
+                    title: buttonTitle2,
+                    color: ProjectColor.grey2,
+                    titleColor: ProjectColor.white1,
+                  ),
+                )
               : SizedBox()
         ],
       ),

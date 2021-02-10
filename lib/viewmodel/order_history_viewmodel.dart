@@ -1,5 +1,6 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
+import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/model/response/transaction_response_model.dart';
@@ -68,6 +69,13 @@ class OrderHistoryViewModel extends MultipleStreamViewModel {
   void logout() {
     _userRepo.logout();
     goToHome();
+  }
+
+  void goToDetail(TransactionModel transaction) {
+    _nav.pushNamed(
+      Routes.orderDetailPage,
+      arguments: OrderDetailPageArguments(transaction: transaction),
+    );
   }
 
   void goToHome() => _mainVM.setIndex(0);
