@@ -2,7 +2,6 @@ import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/utils/shared_value.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:carimakan/extension/extended_num.dart';
 
 class OrderListItem extends StatelessWidget {

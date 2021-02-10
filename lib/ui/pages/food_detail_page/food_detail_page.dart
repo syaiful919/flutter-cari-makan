@@ -5,7 +5,6 @@ import 'package:carimakan/ui/components/base/base_button.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/viewmodel/food_detail_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/extension/extended_num.dart';
 
