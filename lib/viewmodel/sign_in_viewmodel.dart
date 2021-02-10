@@ -8,10 +8,13 @@ import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/model/response/sign_in_response_model.dart';
+import 'package:carimakan/repository/transaction_repository.dart';
 
 class SignInViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
+  final _transactionRepo = locator<TransactionRepository>();
+
   final _mainVM = locator<MainViewModel>();
   final _flush = locator<FlushbarService>();
 
@@ -62,6 +65,7 @@ class SignInViewModel extends BaseViewModel {
     _userRepo.saveUserData(response.data.user);
     _userRepo.setIsLogin(true);
     _mainVM.setIndex(0);
+    _transactionRepo.setIsNeedReloadTransaction(true);
     _nav.pushNamedAndRemoveUntil(Routes.mainPage);
   }
 

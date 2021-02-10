@@ -11,7 +11,8 @@ class TransactionApi {
 
   Future<TransactionResponseModel> getTransaction(
       {@required String token}) async {
-    var result = await _helper.get(endpoint: "transaction", bearerToken: token);
+    var result =
+        await _helper.get(endpoint: "transaction?limit=50", bearerToken: token);
     return TransactionResponseModel.fromJson(result);
   }
 

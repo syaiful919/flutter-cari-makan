@@ -6,12 +6,31 @@ import 'package:carimakan/model/response/transaction_response_model.dart';
 import 'package:carimakan/repository/transaction_repository.dart';
 import 'package:carimakan/repository/user_repository.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
+import 'package:carimakan/utils/stream_key.dart';
 
-class OrderHistoryViewModel extends BaseViewModel {
+class OrderHistoryViewModel extends MultipleStreamViewModel {
   final _nav = locator<NavigationService>();
   final _transactionRepo = locator<TransactionRepository>();
   final _userRepo = locator<UserRepository>();
   final _mainVM = locator<MainViewModel>();
+
+  @override
+  Map<String, StreamData> get streamsMap => {
+        StreamKey.transactionReload:
+            StreamData<bool>(_transactionRepo.isNeedReloadTransaction),
+        StreamKey.authStatus: StreamData<bool>(_userRepo.isLogin),
+      };
+
+  @override
+  void onData(String key, data) {
+    super.onData(key, data);
+    if (key == StreamKey.transactionReload) {
+      if (data) {
+        _transactionRepo.setIsNeedReloadTransaction(false);
+        if (transactions != null) firstLoad();
+      }
+    }
+  }
 
   String userToken;
 
@@ -39,7 +58,7 @@ class OrderHistoryViewModel extends BaseViewModel {
       TransactionResponseModel result =
           await _transactionRepo.getTransaction(token: userToken);
       if (result.data.transactions != null) {
-        transactions = result.data.transactions;
+        transactions = result.data.transactions.reversed.toList();
       }
     } catch (e) {
       print(">>> get transaction error: $e");

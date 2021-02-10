@@ -48,7 +48,11 @@ class TransactionResponseDataModel {
             : List<TransactionModel>.from(
                 json["data"].map((x) => TransactionModel.fromJson(x))),
         lastPage: json["last_page"] == null ? null : json["last_page"],
-        perPage: json["per_page"] == null ? null : json["per_page"],
+        perPage: json["per_page"] == null
+            ? null
+            : json["per_page"] is String
+                ? int.tryParse(json["per_page"])
+                : json["per_page"],
         total: json["total"] == null ? null : json["total"],
       );
 }

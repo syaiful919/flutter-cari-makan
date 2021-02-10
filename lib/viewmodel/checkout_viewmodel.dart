@@ -12,14 +12,12 @@ import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/model/response/checkout_response_model.dart';
-import 'package:carimakan/viewmodel/order_history_viewmodel.dart';
 
 class CheckoutViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
   final _transactionRepo = locator<TransactionRepository>();
   final _mainVM = locator<MainViewModel>();
-  final _orderHistoryVM = locator<OrderHistoryViewModel>();
   final _flush = locator<FlushbarService>();
 
   BuildContext _pageContext;
@@ -107,8 +105,8 @@ class CheckoutViewModel extends BaseViewModel {
           await _transactionRepo.checkout(request: request, token: _userToken);
       print(result.data.id);
 
-      await _orderHistoryVM.getTransaction();
       toggleTryingToCheckout();
+      _transactionRepo.setIsNeedReloadTransaction(true);
       _nav.pushNamedAndRemoveUntil(Routes.mainPage);
     } catch (e) {
       print(">>> checkout error $e");
