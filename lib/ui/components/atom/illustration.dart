@@ -24,43 +24,47 @@ class Illustration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ShrinkColumn(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width - 2 * Gap.xl,
-            margin: EdgeInsets.only(bottom: Gap.xl),
-            child: Image.asset(
-              picturePath,
-              fit: BoxFit.fitHeight,
-              height: 150,
+    return SingleChildScrollView(
+      child: Container(
+        alignment: Alignment.center,
+        height: MediaQuery.of(context).size.height,
+        child: ShrinkColumn(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width - 2 * Gap.xl,
+              margin: EdgeInsets.only(bottom: Gap.xl),
+              child: Image.asset(
+                picturePath,
+                fit: BoxFit.fitHeight,
+                height: 225,
+              ),
             ),
-          ),
-          Text(title, style: TypoStyle.header2Black),
-          Text(
-            subtitle,
-            style: TypoStyle.mainGrey300,
-            textAlign: TextAlign.center,
-          ),
-          Container(
-              margin: EdgeInsets.only(top: Gap.l, bottom: Gap.s),
-              width: 200,
-              child: BaseButton(
-                onPressed: buttonTap1,
-                title: buttonTitle1,
-              )),
-          (buttonTap2 != null && buttonTitle2 != null)
-              ? SizedBox(
-                  width: 200,
-                  child: BaseButton(
-                    onPressed: buttonTap2,
-                    title: buttonTitle2,
-                    color: ProjectColor.grey2,
-                    titleColor: ProjectColor.white1,
-                  ),
-                )
-              : SizedBox()
-        ],
+            Text(title, style: TypoStyle.header2Black),
+            Text(
+              subtitle,
+              style: TypoStyle.mainGrey300,
+              textAlign: TextAlign.center,
+            ),
+            Container(
+                margin: EdgeInsets.only(top: Gap.l, bottom: Gap.s),
+                width: 200,
+                child: BaseButton(
+                  onPressed: buttonTap1,
+                  title: buttonTitle1,
+                )),
+            (buttonTap2 != null && buttonTitle2 != null)
+                ? SizedBox(
+                    width: 200,
+                    child: BaseButton(
+                      onPressed: buttonTap2,
+                      title: buttonTitle2,
+                      color: ProjectColor.grey2,
+                      titleColor: ProjectColor.white1,
+                    ),
+                  )
+                : SizedBox()
+          ],
+        ),
       ),
     );
   }
