@@ -37,6 +37,7 @@ class HomeViewModel extends StreamViewModel {
 
   void clearUser() {
     user = null;
+    userToken = null;
     notifyListeners();
   }
 

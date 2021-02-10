@@ -1,20 +1,26 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/model/entity/user_model.dart';
+import 'package:carimakan/model/request/checkout_request_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/repository/transaction_repository.dart';
 import 'package:carimakan/repository/user_repository.dart';
+import 'package:carimakan/service/flushbar/flushbar_service.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
 import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:carimakan/model/response/checkout_response_model.dart';
+import 'package:carimakan/viewmodel/order_history_viewmodel.dart';
 
 class CheckoutViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
   final _transactionRepo = locator<TransactionRepository>();
   final _mainVM = locator<MainViewModel>();
+  final _orderHistoryVM = locator<OrderHistoryViewModel>();
+  final _flush = locator<FlushbarService>();
 
   BuildContext _pageContext;
   String _userToken;
@@ -29,6 +35,9 @@ class CheckoutViewModel extends BaseViewModel {
   int get driverPrice => _driverPrice;
   int _taxPrice;
   int get taxPrice => _taxPrice;
+
+  bool _tryingToCheckout = false;
+  bool get tryingToCheckout => _tryingToCheckout;
 
   Future<void> firstLoad({
     BuildContext context,
@@ -75,6 +84,37 @@ class CheckoutViewModel extends BaseViewModel {
       }
     } catch (e) {
       print(">>> get user data error $e");
+    }
+  }
+
+  void toggleTryingToCheckout() {
+    _tryingToCheckout = !_tryingToCheckout;
+    notifyListeners();
+  }
+
+  Future<void> checkout() async {
+    try {
+      toggleTryingToCheckout();
+      CheckoutRequestModel request = CheckoutRequestModel(
+        foodId: _transaction.foodId,
+        userId: _user.id,
+        quantity: _transaction.quantity,
+        total: _transaction.total,
+        status: "PENDING",
+      );
+      print(checkoutRequestModelToJson(request));
+      CheckoutResponseModel result =
+          await _transactionRepo.checkout(request: request, token: _userToken);
+      print(result.data.id);
+
+      await _orderHistoryVM.getTransaction();
+      toggleTryingToCheckout();
+      _nav.pushNamedAndRemoveUntil(Routes.mainPage);
+    } catch (e) {
+      print(">>> checkout error $e");
+      toggleTryingToCheckout();
+      _flush.showFlushbar(
+          context: _pageContext, message: "Checkout failed, try again later");
     }
   }
 

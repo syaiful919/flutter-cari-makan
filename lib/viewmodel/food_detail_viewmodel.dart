@@ -5,9 +5,14 @@ import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
+import 'package:carimakan/repository/user_repository.dart';
 
-class FoodDetailViewModel extends BaseViewModel {
+class FoodDetailViewModel extends StreamViewModel {
   final _nav = locator<NavigationService>();
+  final _userRepo = locator<UserRepository>();
+
+  @override
+  Stream get stream => _userRepo.isLogin;
 
   BuildContext _pageContext;
 
@@ -34,16 +39,20 @@ class FoodDetailViewModel extends BaseViewModel {
   }
 
   void goToCheckoutPage() {
-    _nav.pushNamed(
-      Routes.checkoutPage,
-      arguments: CheckoutPageArguments(
-        transaction: TransactionModel(
-          foodId: _food.id,
-          food: _food,
-          quantity: _quantity,
+    if (data) {
+      _nav.pushNamed(
+        Routes.checkoutPage,
+        arguments: CheckoutPageArguments(
+          transaction: TransactionModel(
+            foodId: _food.id,
+            food: _food,
+            quantity: _quantity,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      _nav.pushNamed(Routes.signInPage);
+    }
   }
 
   void goBack() => _nav.pop();

@@ -33,7 +33,7 @@ class OrderHistoryPage extends StatelessWidget {
                       title: 'Ouch! Hungry',
                       subtitle: 'Seems you like have not\nordered any food yet',
                       picturePath: ProjectImages.loveBurger,
-                      buttonTap1: () {},
+                      buttonTap1: () => model.goToHome(),
                       buttonTitle1: 'Find Foods',
                     ),
                   )
@@ -84,14 +84,23 @@ class BodySection extends HookViewModelWidget<OrderHistoryViewModel> {
                           x.getStatus() == TransactionStatus.cancelled)
                       .toList();
 
-              return InnerListViewBuilder(
-                itemCount: transactions.length,
-                itemBuilder: (_, i) => Padding(
-                  padding: EdgeInsets.fromLTRB(Gap.main, 0, Gap.main, Gap.m),
-                  child: OrderListItem(
-                      transaction: transactions[i], itemWidth: listItemWidth),
-                ),
-              );
+              return (transactions.length == 0)
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: Gap.l, top: Gap.m),
+                      child: Center(
+                        child: Text("No orders yet", style: TypoStyle.mainGrey),
+                      ),
+                    )
+                  : InnerListViewBuilder(
+                      itemCount: transactions.length,
+                      itemBuilder: (_, i) => Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(Gap.main, 0, Gap.main, Gap.m),
+                        child: OrderListItem(
+                            transaction: transactions[i],
+                            itemWidth: listItemWidth),
+                      ),
+                    );
             } else {
               return Center(
                 child: Padding(

@@ -27,7 +27,11 @@ class FoodModel {
         name: json["name"] == null ? null : json["name"],
         description: json["description"] == null ? null : json["description"],
         ingredients: json["ingredients"] == null ? null : json["ingredients"],
-        price: json["price"] == null ? null : json["price"],
+        price: json["price"] == null
+            ? null
+            : json["price"] is String
+                ? int.tryParse(json["price"])
+                : json["price"],
         rate: json["rate"] == null ? null : (json["rate"] as num).toDouble(),
         types: json["types"] == null ? null : json["types"],
       );

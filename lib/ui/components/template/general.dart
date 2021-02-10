@@ -67,7 +67,7 @@ class General extends StatelessWidget {
                   Container(
                     height: Gap.main,
                     width: double.infinity,
-                    color: ProjectColor.white3,
+                    color: ProjectColor.white2,
                   ),
                   child ?? SizedBox()
                 ],

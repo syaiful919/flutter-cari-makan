@@ -25,7 +25,7 @@ class CheckoutPage extends StatelessWidget {
         subtitle: 'You deserve better meal',
         onBackButtonPressed: () => model.goBack(),
         child: Container(
-          color: ProjectColor.white3,
+          color: ProjectColor.white2,
           child: Column(
             children: <Widget>[
               if (model.transaction != null) ItemSection(),
@@ -35,7 +35,8 @@ class CheckoutPage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(
                       Gap.main, Gap.zero, Gap.main, Gap.main),
                   child: BaseButton(
-                    onPressed: () {},
+                    onPressed: () => model.checkout(),
+                    loading: model.tryingToCheckout,
                     title: "Checkout Now",
                   ),
                 )
