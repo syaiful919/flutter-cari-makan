@@ -7,6 +7,7 @@ import 'package:carimakan/viewmodel/food_detail_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
+import 'package:carimakan/extension/extended_num.dart';
 
 class FoodDetailPage extends StatelessWidget {
   final FoodModel food;
@@ -139,12 +140,8 @@ class FoodDetailPage extends StatelessWidget {
                                   style: TypoStyle.secondaryGrey,
                                 ),
                                 Text(
-                                  NumberFormat.currency(
-                                          locale: 'id-ID',
-                                          symbol: 'IDR ',
-                                          decimalDigits: 0)
-                                      .format(
-                                          model.quantity * model.food.price),
+                                  (model.quantity * model.food.price)
+                                      .addCurrency(),
                                   style: TypoStyle.header3Black500,
                                 )
                               ],
@@ -153,7 +150,7 @@ class FoodDetailPage extends StatelessWidget {
                               width: 163,
                               child: BaseButton(
                                 title: 'Order Now',
-                                onPressed: () {},
+                                onPressed: () => model.goToCheckoutPage(),
                               ),
                             )
                           ],

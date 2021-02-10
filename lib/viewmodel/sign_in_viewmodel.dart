@@ -51,10 +51,7 @@ class SignInViewModel extends BaseViewModel {
       afterSignIn(response);
     } catch (e) {
       print(">>> sign in error $e");
-      _flush.showFlushbar(
-        context: _pageContext,
-        message: "Sign in failed",
-      );
+      _flush.showFlushbar(context: _pageContext, message: "Sign in failed");
     } finally {
       toggleTryingToSignIn();
     }

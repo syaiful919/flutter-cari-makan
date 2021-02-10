@@ -3,6 +3,7 @@ import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/model/entity/food_model.dart';
 import 'package:carimakan/ui/components/atom/rating_stars.dart';
 import 'package:intl/intl.dart';
+import 'package:carimakan/extension/extended_num.dart';
 
 class FoodListItem extends StatelessWidget {
   final FoodModel food;
@@ -40,9 +41,7 @@ class FoodListItem extends StatelessWidget {
                   overflow: TextOverflow.clip,
                 ),
                 Text(
-                  NumberFormat.currency(
-                          symbol: 'IDR ', decimalDigits: 0, locale: 'id-ID')
-                      .format(food.price),
+                  food.price.addCurrency(),
                   style: TypoStyle.secondaryGrey,
                 )
               ],

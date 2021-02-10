@@ -3,6 +3,7 @@ import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/utils/shared_value.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:carimakan/extension/extended_num.dart';
 
 class OrderListItem extends StatelessWidget {
   final TransactionModel transaction;
@@ -37,9 +38,7 @@ class OrderListItem extends StatelessWidget {
               ),
               Text(
                 "${transaction.quantity} item(s) • " +
-                    NumberFormat.currency(
-                            symbol: 'IDR ', decimalDigits: 0, locale: 'id-ID')
-                        .format(transaction.total),
+                    transaction.total.addCurrency(),
                 style: TypoStyle.secondaryGrey,
               )
             ],

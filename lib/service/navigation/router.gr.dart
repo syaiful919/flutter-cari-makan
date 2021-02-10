@@ -15,7 +15,7 @@ import 'package:carimakan/ui/pages/sign_up_page/sign_up_page.dart';
 import 'package:carimakan/ui/pages/address_page/address_page.dart';
 import 'package:carimakan/model/request/sign_up_request_model.dart';
 import 'package:carimakan/ui/pages/checkout_page/checkout_page.dart';
-import 'package:carimakan/model/request/transaction_request_model.dart';
+import 'package:carimakan/model/entity/transaction_model.dart';
 
 abstract class Routes {
   static const mainPage = '/';
@@ -91,8 +91,7 @@ class Router extends RouterBase {
             args as CheckoutPageArguments ?? CheckoutPageArguments();
         return MaterialPageRoute<dynamic>(
           builder: (context) => CheckoutPage(
-              key: typedArgs.key,
-              transactionRequest: typedArgs.transactionRequest),
+              key: typedArgs.key, transaction: typedArgs.transaction),
           settings: settings,
         );
       default:
@@ -122,6 +121,6 @@ class AddressPageArguments {
 //CheckoutPage arguments holder class
 class CheckoutPageArguments {
   final Key key;
-  final TransactionRequestModel transactionRequest;
-  CheckoutPageArguments({this.key, this.transactionRequest});
+  final TransactionModel transaction;
+  CheckoutPageArguments({this.key, this.transaction});
 }
