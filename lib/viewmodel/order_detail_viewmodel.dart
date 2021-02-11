@@ -1,14 +1,21 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
+import 'package:carimakan/model/response/transaction_response_model.dart';
+import 'package:carimakan/repository/user_repository.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
 import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:carimakan/repository/transaction_repository.dart';
 
 class OrderDetailViewModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
+  final _transactionRepo = locator<TransactionRepository>();
+  final _userRepo = locator<UserRepository>();
 
   BuildContext _pageContext;
+
+  String _userToken;
 
   TransactionModel _transaction;
   TransactionModel get transaction => _transaction;
@@ -18,6 +25,14 @@ class OrderDetailViewModel extends BaseViewModel {
   int _taxPrice;
   int get taxPrice => _taxPrice;
 
+  bool _tryingToReload = false;
+  bool get tryingToReload => _tryingToReload;
+
+  void toggleTryingToReload() {
+    _tryingToReload = !_tryingToReload;
+    notifyListeners();
+  }
+
   Future<void> firstLoad({
     BuildContext context,
     TransactionModel transaction,
@@ -26,6 +41,7 @@ class OrderDetailViewModel extends BaseViewModel {
     _transaction = transaction;
     calculateAdditionalPrice();
     notifyListeners();
+    runBusyFuture(getUserToken());
   }
 
   void calculateAdditionalPrice() {
@@ -40,8 +56,29 @@ class OrderDetailViewModel extends BaseViewModel {
           orderId: _transaction.id,
           redirectUrl: _transaction.paymentUrl + "#/bank-transfer"),
     );
-    if (result != null && result) {
-      // reload
+    if (result != null && result) reload();
+  }
+
+  Future<void> reload() async {
+    try {
+      toggleTryingToReload();
+      TransactionResponseModel response = await _transactionRepo
+          .getTransactionById(id: _transaction.id, token: _userToken);
+      if (response.data != null) {
+        _transaction = response.data;
+      }
+    } catch (e) {
+      print(">>> get transaction error");
+    } finally {
+      toggleTryingToReload();
+    }
+  }
+
+  Future<void> getUserToken() async {
+    try {
+      _userToken = _userRepo.getUserToken();
+    } catch (e) {
+      print(">>> get user token error $e");
     }
   }
 

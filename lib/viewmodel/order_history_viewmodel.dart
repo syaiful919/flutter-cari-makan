@@ -3,7 +3,7 @@ import 'package:carimakan/service/navigation/navigation_service.dart';
 import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
-import 'package:carimakan/model/response/transaction_response_model.dart';
+import 'package:carimakan/model/response/transactions_response_model.dart';
 import 'package:carimakan/repository/transaction_repository.dart';
 import 'package:carimakan/repository/user_repository.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
@@ -56,8 +56,8 @@ class OrderHistoryViewModel extends MultipleStreamViewModel {
 
   Future<void> getTransaction() async {
     try {
-      TransactionResponseModel result =
-          await _transactionRepo.getTransaction(token: userToken);
+      TransactionsResponseModel result =
+          await _transactionRepo.getTransactions(token: userToken);
       if (result.data.transactions != null) {
         transactions = result.data.transactions.reversed.toList();
       }

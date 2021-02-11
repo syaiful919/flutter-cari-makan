@@ -1,6 +1,7 @@
 import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/ui/components/atom/detail_list_item.dart';
 import 'package:carimakan/ui/components/base/base_button.dart';
+import 'package:carimakan/ui/components/base/loading.dart';
 import 'package:carimakan/ui/components/base/shrink_column.dart';
 import 'package:carimakan/ui/components/template/general.dart';
 import 'package:carimakan/utils/project_theme.dart';
@@ -23,34 +24,44 @@ class OrderDetailPage extends StatelessWidget {
         transaction: transaction,
       ),
       viewModelBuilder: () => OrderDetailViewModel(),
-      builder: (_, model, __) => General(
-        title: 'Order Detail',
-        subtitle: 'Your best choice',
-        onBackButtonPressed: () => model.goBack(),
-        child: Container(
-          color: ProjectColor.white2,
-          child: model.transaction == null
-              ? Container()
-              : Column(
-                  children: <Widget>[
-                    StatusSection(),
-                    ItemSection(),
-                    AddressSection(),
-                    if (model.transaction.getStatus() ==
-                        TransactionStatus.pending)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            Gap.main, Gap.zero, Gap.main, Gap.main),
-                        child: BaseButton(
-                          color: ProjectColor.red2,
-                          titleColor: ProjectColor.white1,
-                          onPressed: () => model.pay(),
-                          title: "Continue Payment",
-                        ),
-                      )
-                  ],
-                ),
-        ),
+      builder: (_, model, __) => Stack(
+        children: <Widget>[
+          General(
+            title: 'Order Detail',
+            subtitle: 'Your best choice',
+            onBackButtonPressed: () => model.goBack(),
+            child: Container(
+              color: ProjectColor.white2,
+              child: model.transaction == null
+                  ? Container()
+                  : Column(
+                      children: <Widget>[
+                        StatusSection(),
+                        ItemSection(),
+                        AddressSection(),
+                        if (model.transaction.getStatus() ==
+                            TransactionStatus.pending)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                Gap.main, Gap.zero, Gap.main, Gap.main),
+                            child: BaseButton(
+                              color: ProjectColor.red2,
+                              titleColor: ProjectColor.white1,
+                              onPressed: () => model.pay(),
+                              title: "Continue Payment",
+                            ),
+                          )
+                      ],
+                    ),
+            ),
+          ),
+          if (model.tryingToReload)
+            Container(
+              alignment: Alignment.center,
+              color: ProjectColor.black1.withOpacity(0.5),
+              child: Loading(),
+            ),
+        ],
       ),
     );
   }
