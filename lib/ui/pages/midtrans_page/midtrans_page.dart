@@ -105,7 +105,7 @@ class _MidtransPageState extends State<MidtransPage> {
                         var url = request.url;
 
                         if (!firstLoad) {
-                          if (url.contains(CALLBACK_URL)) {
+                          if (url.contains(callbackUrl())) {
                             model.goToAfterPaymentPage();
                             return ShouldOverrideUrlLoadingAction.CANCEL;
                           } else if (url.contains("#/404")) {

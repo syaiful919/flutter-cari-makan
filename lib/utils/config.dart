@@ -11,7 +11,13 @@ class ProjectConfig {
   static const String iosLink = "";
 }
 
-const String CALLBACK_URL = 'foodmarket-backend.buildwithangga.id/';
+String callbackUrl() {
+  if (ProjectConfig.useProd == true) {
+    return 'foodmarket-backend.buildwithangga.id/';
+  } else {
+    return "vast-tundra-16919.herokuapp.com/";
+  }
+}
 
 String baseUrl() {
   if (ProjectConfig.useProd == true) {
