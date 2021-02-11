@@ -39,11 +39,17 @@ class Illustration extends StatelessWidget {
                 height: 225,
               ),
             ),
-            Text(title, style: TypoStyle.header2Black),
-            Text(
-              subtitle,
-              style: TypoStyle.mainGrey300,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Gap.main),
+              child: Text(title, style: TypoStyle.header2Black),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Gap.main),
+              child: Text(
+                subtitle,
+                style: TypoStyle.mainGrey300,
+                textAlign: TextAlign.center,
+              ),
             ),
             Container(
                 margin: EdgeInsets.only(top: Gap.l, bottom: Gap.s),

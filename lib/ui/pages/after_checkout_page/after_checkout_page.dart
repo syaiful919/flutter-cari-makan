@@ -1,6 +1,5 @@
 import 'package:carimakan/ui/components/atom/illustration.dart';
 import 'package:carimakan/utils/project_images.dart';
-import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/viewmodel/after_checkout_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';

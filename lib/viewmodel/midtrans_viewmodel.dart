@@ -34,5 +34,9 @@ class MidtransViewModel extends StreamViewModel {
 
   void goToAfterPaymentPage() async {
     _nav.pushNamedAndRemoveUntil(Routes.mainPage);
+    _nav.pushNamed(
+      Routes.afterPaymentPage,
+      arguments: AfterPaymentPageArguments(orderId: orderId),
+    );
   }
 }

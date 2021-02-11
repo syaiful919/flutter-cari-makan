@@ -19,6 +19,7 @@ import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/ui/pages/order_detail_page/order_detail_page.dart';
 import 'package:carimakan/ui/pages/after_checkout_page/after_checkout_page.dart';
 import 'package:carimakan/ui/pages/midtrans_page/midtrans_page.dart';
+import 'package:carimakan/ui/pages/after_payment_page/after_payment_page.dart';
 
 abstract class Routes {
   static const mainPage = '/';
@@ -30,6 +31,7 @@ abstract class Routes {
   static const orderDetailPage = '/order-detail-page';
   static const afterCheckoutPage = '/after-checkout-page';
   static const midtransPage = '/midtrans-page';
+  static const afterPaymentPage = '/after-payment-page';
   static const all = {
     mainPage,
     foodDetailPage,
@@ -40,6 +42,7 @@ abstract class Routes {
     orderDetailPage,
     afterCheckoutPage,
     midtransPage,
+    afterPaymentPage,
   };
 }
 
@@ -137,6 +140,17 @@ class Router extends RouterBase {
               redirectUrl: typedArgs.redirectUrl, orderId: typedArgs.orderId),
           settings: settings,
         );
+      case Routes.afterPaymentPage:
+        if (hasInvalidArgs<AfterPaymentPageArguments>(args)) {
+          return misTypedArgsRoute<AfterPaymentPageArguments>(args);
+        }
+        final typedArgs =
+            args as AfterPaymentPageArguments ?? AfterPaymentPageArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (context) =>
+              AfterPaymentPage(key: typedArgs.key, orderId: typedArgs.orderId),
+          settings: settings,
+        );
       default:
         return unknownRoutePage(settings.name);
     }
@@ -188,4 +202,11 @@ class MidtransPageArguments {
   final String redirectUrl;
   final int orderId;
   MidtransPageArguments({@required this.redirectUrl, this.orderId});
+}
+
+//AfterPaymentPage arguments holder class
+class AfterPaymentPageArguments {
+  final Key key;
+  final int orderId;
+  AfterPaymentPageArguments({this.key, this.orderId});
 }

@@ -65,6 +65,9 @@ class OrderDetailViewModel extends BaseViewModel {
       TransactionResponseModel response = await _transactionRepo
           .getTransactionById(id: _transaction.id, token: _userToken);
       if (response.data != null) {
+        if (response.data.status != _transaction.status) {
+          triggerTransactionToReload();
+        }
         _transaction = response.data;
       }
     } catch (e) {
@@ -72,6 +75,10 @@ class OrderDetailViewModel extends BaseViewModel {
     } finally {
       toggleTryingToReload();
     }
+  }
+
+  void triggerTransactionToReload() {
+    _transactionRepo.setIsNeedReloadTransaction(true);
   }
 
   Future<void> getUserToken() async {
