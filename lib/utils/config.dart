@@ -11,6 +11,8 @@ class ProjectConfig {
   static const String iosLink = "";
 }
 
+const String CALLBACK_URL = 'foodmarket-backend.buildwithangga.id/';
+
 String baseUrl() {
   if (ProjectConfig.useProd == true) {
     return 'https://foodmarket-backend.buildwithangga.id/api/';

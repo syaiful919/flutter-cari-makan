@@ -119,7 +119,10 @@ class CheckoutViewModel extends BaseViewModel {
     _nav.pushNamedAndRemoveUntil(Routes.mainPage);
     _nav.pushNamed(
       Routes.afterCheckoutPage,
-      arguments: AfterCheckoutPageArguments(paymentUrl: data.paymentUrl),
+      arguments: AfterCheckoutPageArguments(
+        paymentUrl: data.paymentUrl,
+        transactionId: data.id,
+      ),
     );
   }
 

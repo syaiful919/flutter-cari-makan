@@ -66,7 +66,10 @@ class OrderListItem extends StatelessWidget {
                         : (transaction.getStatus() ==
                                 TransactionStatus.on_delivery)
                             ? Text('On Delivery', style: TypoStyle.smallGreen)
-                            : SizedBox()
+                            : (transaction.getStatus() ==
+                                    TransactionStatus.delivered)
+                                ? Text('Delivered', style: TypoStyle.smallGreen)
+                                : SizedBox()
               ],
             ),
           )

@@ -7,14 +7,16 @@ import 'package:stacked/stacked.dart';
 
 class AfterCheckoutPage extends StatelessWidget {
   final String paymentUrl;
-
-  const AfterCheckoutPage({Key key, this.paymentUrl}) : super(key: key);
+  final int transactionId;
+  const AfterCheckoutPage({Key key, this.paymentUrl, this.transactionId})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AfterCheckoutViewModel>.reactive(
       onModelReady: (model) => model.firstLoad(
         context: context,
         url: paymentUrl,
+        transactionId: transactionId,
       ),
       viewModelBuilder: () => AfterCheckoutViewModel(),
       builder: (_, model, __) => Scaffold(
@@ -23,7 +25,7 @@ class AfterCheckoutPage extends StatelessWidget {
           subtitle: "Please select your favourite\npayment method",
           picturePath: ProjectImages.payment,
           buttonTap1: () => model.pay(),
-          buttonTitle1: 'Payment Method',
+          buttonTitle1: 'Pay Now',
           buttonTap2: () => model.goBack(),
           buttonTitle2: 'Pay later',
         ),

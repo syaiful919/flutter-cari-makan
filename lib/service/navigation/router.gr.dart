@@ -18,6 +18,7 @@ import 'package:carimakan/ui/pages/checkout_page/checkout_page.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
 import 'package:carimakan/ui/pages/order_detail_page/order_detail_page.dart';
 import 'package:carimakan/ui/pages/after_checkout_page/after_checkout_page.dart';
+import 'package:carimakan/ui/pages/midtrans_page/midtrans_page.dart';
 
 abstract class Routes {
   static const mainPage = '/';
@@ -28,6 +29,7 @@ abstract class Routes {
   static const checkoutPage = '/checkout-page';
   static const orderDetailPage = '/order-detail-page';
   static const afterCheckoutPage = '/after-checkout-page';
+  static const midtransPage = '/midtrans-page';
   static const all = {
     mainPage,
     foodDetailPage,
@@ -37,6 +39,7 @@ abstract class Routes {
     checkoutPage,
     orderDetailPage,
     afterCheckoutPage,
+    midtransPage,
   };
 }
 
@@ -119,7 +122,19 @@ class Router extends RouterBase {
             args as AfterCheckoutPageArguments ?? AfterCheckoutPageArguments();
         return MaterialPageRoute<dynamic>(
           builder: (context) => AfterCheckoutPage(
-              key: typedArgs.key, paymentUrl: typedArgs.paymentUrl),
+              key: typedArgs.key,
+              paymentUrl: typedArgs.paymentUrl,
+              transactionId: typedArgs.transactionId),
+          settings: settings,
+        );
+      case Routes.midtransPage:
+        if (hasInvalidArgs<MidtransPageArguments>(args, isRequired: true)) {
+          return misTypedArgsRoute<MidtransPageArguments>(args);
+        }
+        final typedArgs = args as MidtransPageArguments;
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => MidtransPage(
+              redirectUrl: typedArgs.redirectUrl, orderId: typedArgs.orderId),
           settings: settings,
         );
       default:
@@ -164,5 +179,13 @@ class OrderDetailPageArguments {
 class AfterCheckoutPageArguments {
   final Key key;
   final String paymentUrl;
-  AfterCheckoutPageArguments({this.key, this.paymentUrl});
+  final int transactionId;
+  AfterCheckoutPageArguments({this.key, this.paymentUrl, this.transactionId});
+}
+
+//MidtransPage arguments holder class
+class MidtransPageArguments {
+  final String redirectUrl;
+  final int orderId;
+  MidtransPageArguments({@required this.redirectUrl, this.orderId});
 }
