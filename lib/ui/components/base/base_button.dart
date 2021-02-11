@@ -9,6 +9,7 @@ class BaseButton extends StatelessWidget {
   final Color titleColor;
   final bool disabled;
   final bool loading;
+  final bool outlineType;
 
   const BaseButton({
     Key key,
@@ -18,6 +19,7 @@ class BaseButton extends StatelessWidget {
     this.titleColor,
     this.disabled = false,
     this.loading = false,
+    this.outlineType = false,
   }) : super(key: key);
 
   @override
@@ -29,14 +31,21 @@ class BaseButton extends StatelessWidget {
           ? Center(child: Loading())
           : RaisedButton(
               onPressed: disabled ? null : onPressed,
-              color: color ?? ProjectColor.main,
+              color: outlineType
+                  ? ProjectColor.white1
+                  : (color ?? ProjectColor.main),
               elevation: 0,
               shape: RoundedRectangleBorder(
+                  side: outlineType
+                      ? BorderSide(color: color ?? ProjectColor.black2)
+                      : BorderSide.none,
                   borderRadius: BorderRadius.circular(RadiusSize.m)),
               child: Text(
                 title,
                 style: TextStyle(
-                  color: titleColor ?? ProjectColor.black2,
+                  color: outlineType
+                      ? (color ?? ProjectColor.black2)
+                      : (titleColor ?? ProjectColor.black2),
                   fontSize: TypoSize.main,
                   fontWeight: FontWeight.w500,
                 ),

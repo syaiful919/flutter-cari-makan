@@ -4,6 +4,8 @@ import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/repository/user_repository.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
 import 'package:carimakan/service/navigation/router.gr.dart';
+import 'package:carimakan/ui/components/atom/dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
 
@@ -67,6 +69,15 @@ class ProfileViewModel extends StreamViewModel {
   }
 
   void goToHome() => _mainVM.setIndex(0);
+
+  void showLogoutDialog(BuildContext context) async {
+    var action = await Dialogs.yesNoDialog(
+      context: context,
+      isReverse: true,
+      title: "Are you sure?",
+    );
+    if (action == DialogAction.yes) logout();
+  }
 
   void logout() {
     _userRepo.logout();

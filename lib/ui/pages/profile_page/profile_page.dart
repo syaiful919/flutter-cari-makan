@@ -73,7 +73,7 @@ class AccountTabSection extends ViewModelWidget<ProfileViewModel> {
         ),
         ProfileItem(
           title: "Log out",
-          onTap: () => model.logout(),
+          onTap: () => model.showLogoutDialog(context),
         ),
       ],
     );
