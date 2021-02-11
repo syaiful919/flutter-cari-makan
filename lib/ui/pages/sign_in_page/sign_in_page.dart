@@ -54,7 +54,7 @@ class _SignInPageState extends State<SignInPage> {
                 passwordType: true,
                 controller: passwordController,
                 label: "Password",
-                placeHolder: 'Type your email password',
+                placeHolder: 'Type your password',
                 onChanged: (val) => model.changePassword(val),
               ),
               SizedBox(height: Gap.l),

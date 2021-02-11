@@ -84,6 +84,6 @@ class SignInViewModel extends BaseViewModel {
   void goBack() => _nav.pop();
 
   void goToSignUpPage() {
-    _nav.pushReplacementNamed(Routes.signUpPage);
+    _nav.pushNamed(Routes.signUpPage);
   }
 }

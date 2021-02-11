@@ -7,7 +7,7 @@ import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
 
-class ProfileViewModel extends BaseViewModel {
+class ProfileViewModel extends StreamViewModel {
   final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
   final _mainVM = locator<MainViewModel>();
@@ -15,13 +15,27 @@ class ProfileViewModel extends BaseViewModel {
   UserModel user;
   String userToken;
 
-  Future<void> firstLoad() async {
-    await runBusyFuture(getUserToken());
-    runBusyFuture(getUser());
+  @override
+  Stream get stream => _userRepo.isLogin;
+
+  @override
+  void onData(data) {
+    super.onData(data);
+    if (!data && user != null) clearUser();
+    if (data && user == null) getUser();
   }
+
+  void clearUser() {
+    user = null;
+    userToken = null;
+    notifyListeners();
+  }
+
+  Future<void> firstLoad() async {}
 
   Future<void> getUser() async {
     try {
+      if (userToken == null) await getUserToken();
       user = _userRepo.getUserData();
       if (user == null) {
         if (userToken == null) {

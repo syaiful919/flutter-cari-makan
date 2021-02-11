@@ -88,8 +88,9 @@ class SignUpViewModel extends BaseViewModel {
       SignUpRequestModel request = SignUpRequestModel(
         name: _name,
         email: _email,
-        password: _password,
         profilePicture: _image,
+        password: _password,
+        passwordConfirmation: _password,
       );
       _nav.pushNamed(
         Routes.addressPage,

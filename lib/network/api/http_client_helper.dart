@@ -202,6 +202,8 @@ class HttpClientHelper {
         throw ForbiddenException(response.body.toString());
       case 404:
         throw NotFoundException(response.body.toString());
+      case 422:
+        throw BadRequestException(response.body.toString());
       case 500:
       case 502:
         throw ServerErrorException(response.body.toString());
