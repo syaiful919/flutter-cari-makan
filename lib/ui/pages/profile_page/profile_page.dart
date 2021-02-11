@@ -65,11 +65,13 @@ class AccountTabSection extends ViewModelWidget<ProfileViewModel> {
       children: <Widget>[
         ProfileItem(
           title: 'Edit Profile',
-          onTap: () {},
+          // onTap: ()=>model.goToEditProfilePage(),
+          onTap: () => model.showUnderDevelopmentMessage(context),
         ),
         ProfileItem(
           title: "Home Address",
-          onTap: () {},
+          // onTap: ()=>model.goToAddressPage(),
+          onTap: () => model.showUnderDevelopmentMessage(context),
         ),
         ProfileItem(
           title: "Log out",
@@ -88,19 +90,19 @@ class AppTabSection extends ViewModelWidget<ProfileViewModel> {
       children: <Widget>[
         ProfileItem(
           title: "Rate App",
-          onTap: () {},
+          onTap: () => model.showNotPublishedMessage(context),
         ),
         ProfileItem(
           title: "Help Center",
-          onTap: () {},
+          onTap: () => model.showUnderDevelopmentMessage(context),
         ),
         ProfileItem(
           title: "Privacy & Policy",
-          onTap: () {},
+          onTap: () => model.showUnderDevelopmentMessage(context),
         ),
         ProfileItem(
           title: "Term & Condition",
-          onTap: () {},
+          onTap: () => model.showUnderDevelopmentMessage(context),
         ),
       ],
     );

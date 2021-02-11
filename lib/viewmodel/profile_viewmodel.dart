@@ -2,17 +2,20 @@ import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/repository/user_repository.dart';
+import 'package:carimakan/service/flushbar/flushbar_service.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
 import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:carimakan/ui/components/atom/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
+import 'package:carimakan/dictionary/message_dictionary.dart';
 
 class ProfileViewModel extends StreamViewModel {
   final _nav = locator<NavigationService>();
   final _userRepo = locator<UserRepository>();
   final _mainVM = locator<MainViewModel>();
+  final _flush = locator<FlushbarService>();
 
   UserModel user;
   String userToken;
@@ -82,5 +85,27 @@ class ProfileViewModel extends StreamViewModel {
   void logout() {
     _userRepo.logout();
     goToHome();
+  }
+
+  void goToAddressPage() {
+    //
+  }
+
+  void goToEditProfilePage() {
+    //
+  }
+
+  void showUnderDevelopmentMessage(BuildContext context) {
+    _flush.showFlushbar(
+      context: context,
+      message: MessageDictionary.featureUnderDevelopment,
+    );
+  }
+
+  void showNotPublishedMessage(BuildContext context) {
+    _flush.showFlushbar(
+      context: context,
+      message: MessageDictionary.notYetPublished,
+    );
   }
 }
