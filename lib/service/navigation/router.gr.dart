@@ -20,6 +20,7 @@ import 'package:carimakan/ui/pages/order_detail_page/order_detail_page.dart';
 import 'package:carimakan/ui/pages/after_checkout_page/after_checkout_page.dart';
 import 'package:carimakan/ui/pages/midtrans_page/midtrans_page.dart';
 import 'package:carimakan/ui/pages/after_payment_page/after_payment_page.dart';
+import 'package:carimakan/ui/pages/after_sign_up_page/after_sign_up_page.dart';
 
 abstract class Routes {
   static const mainPage = '/';
@@ -32,6 +33,7 @@ abstract class Routes {
   static const afterCheckoutPage = '/after-checkout-page';
   static const midtransPage = '/midtrans-page';
   static const afterPaymentPage = '/after-payment-page';
+  static const afterSignUpPage = '/after-sign-up-page';
   static const all = {
     mainPage,
     foodDetailPage,
@@ -43,6 +45,7 @@ abstract class Routes {
     afterCheckoutPage,
     midtransPage,
     afterPaymentPage,
+    afterSignUpPage,
   };
 }
 
@@ -149,6 +152,11 @@ class Router extends RouterBase {
         return MaterialPageRoute<dynamic>(
           builder: (context) =>
               AfterPaymentPage(key: typedArgs.key, orderId: typedArgs.orderId),
+          settings: settings,
+        );
+      case Routes.afterSignUpPage:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => AfterSignUpPage(),
           settings: settings,
         );
       default:

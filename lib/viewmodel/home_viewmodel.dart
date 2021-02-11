@@ -52,7 +52,6 @@ class HomeViewModel extends StreamViewModel {
   Future<void> getUserData() async {
     try {
       if (userToken == null) await getUserToken();
-      print(">>> token $userToken");
       UserResponseModel result =
           await _userRepo.getUserDataRemote(token: userToken);
       if (result?.data != null) {

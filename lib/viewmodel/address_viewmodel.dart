@@ -1,4 +1,5 @@
 import 'package:carimakan/locator/locator.dart';
+import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/request/sign_up_request_model.dart';
 import 'package:carimakan/model/response/auth_response_model.dart';
 import 'package:carimakan/repository/transaction_repository.dart';
@@ -22,6 +23,8 @@ class AddressViewModel extends BaseViewModel {
   final _flush = locator<FlushbarService>();
 
   BuildContext _pageContext;
+  String _userToken;
+  UserModel _user;
 
   SignUpRequestModel _request;
 
@@ -95,7 +98,7 @@ class AddressViewModel extends BaseViewModel {
       _request.city = _selectedCity;
 
       AuthResponseModel response = await _userRepo.signUp(request: _request);
-      afterSignUp(response);
+      await afterSignUp(response);
     } on BadRequestException {
       _flush.showFlushbar(
           context: _pageContext, message: "The email has already been taken");
@@ -107,13 +110,22 @@ class AddressViewModel extends BaseViewModel {
     }
   }
 
-  void afterSignUp(AuthResponseModel response) {
-    _userRepo.saveUserToken(response.data.accessToken);
-    _userRepo.saveUserData(response.data.user);
+  Future<void> afterSignUp(AuthResponseModel response) async {
+    _userToken = response.data.accessToken;
+    _user = response.data.user;
+
+    if (_request.profilePicture != null) {
+      String photoUrl = await uploadImage();
+      if (photoUrl != null) _user.profilePhotoUrl = photoUrl;
+    }
+
+    _userRepo.saveUserToken(_userToken);
+    _userRepo.saveUserData(_user);
     _userRepo.setIsLogin(true);
     _mainVM.setIndex(0);
     _transactionRepo.setIsNeedReloadTransaction(true);
     _nav.pushNamedAndRemoveUntil(Routes.mainPage);
+    _nav.pushNamed(Routes.afterSignUpPage);
   }
 
   void toggleTryingToSignUp() {
@@ -122,4 +134,17 @@ class AddressViewModel extends BaseViewModel {
   }
 
   void goBack() => _nav.pop();
+
+  Future<String> uploadImage() async {
+    try {
+      String result = await _userRepo.uploadPhotoProfile(
+        image: _request.profilePicture,
+        token: _userToken,
+      );
+      return result;
+    } catch (e) {
+      print(">>> error $e");
+      return null;
+    }
+  }
 }

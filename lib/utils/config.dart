@@ -19,6 +19,14 @@ String callbackUrl() {
   }
 }
 
+String storageUrl() {
+  if (ProjectConfig.useProd == true) {
+    return 'http://foodmarket-backend.buildwithangga.id/storage/';
+  } else {
+    return "http://vast-tundra-16919.herokuapp.com/storage/";
+  }
+}
+
 String baseUrl() {
   if (ProjectConfig.useProd == true) {
     return 'https://foodmarket-backend.buildwithangga.id/api/';

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:carimakan/model/request/sign_up_request_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/model/entity/user_model.dart';
+import 'package:carimakan/network/api/attachment_api.dart';
 
 import 'package:carimakan/network/api/user_api.dart';
 import 'package:carimakan/service/shared_preferences/pref_keys.dart';
@@ -17,6 +19,7 @@ import 'package:carimakan/model/response/sign_out_response_model.dart';
 
 class UserRepository {
   final UserApi _api = UserApi();
+  final AttachmentApi _attachmentApi = AttachmentApi();
 
   Future<AuthResponseModel> signIn({@required SignInRequestModel request}) {
     return _api.signIn(request: request);
@@ -24,6 +27,13 @@ class UserRepository {
 
   Future<AuthResponseModel> signUp({@required SignUpRequestModel request}) {
     return _api.signUp(request: request);
+  }
+
+  Future<String> uploadPhotoProfile({
+    @required File image,
+    @required String token,
+  }) {
+    return _attachmentApi.uploadMedia(file: image, token: token);
   }
 
   Future<UserResponseModel> getUserDataRemote({@required String token}) {
