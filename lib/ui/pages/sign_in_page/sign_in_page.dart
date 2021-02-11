@@ -66,7 +66,7 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(height: Gap.s),
               BaseButton(
                 title: "Create New Account",
-                onPressed: () {},
+                onPressed: () => model.goToSignUpPage(),
                 disabled: model.tryingToSignIn,
                 color: ProjectColor.grey2,
                 titleColor: ProjectColor.white1,

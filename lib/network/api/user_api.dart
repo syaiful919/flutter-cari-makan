@@ -1,9 +1,10 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/request/sign_in_request_model.dart';
+import 'package:carimakan/model/request/sign_up_request_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/network/api/http_client_helper.dart';
 import 'package:flutter/foundation.dart';
-import 'package:carimakan/model/response/sign_in_response_model.dart';
+import 'package:carimakan/model/response/auth_response_model.dart';
 import 'package:carimakan/model/response/sign_out_response_model.dart';
 
 class UserApi {
@@ -19,12 +20,21 @@ class UserApi {
     return result == null ? null : SignOutResponseModel.fromJson(result);
   }
 
-  Future<SignInResponseModel> signIn(
+  Future<AuthResponseModel> signIn(
       {@required SignInRequestModel request}) async {
     var result = await _helper.post(
       endpoint: "login",
       body: signInRequestModelToJson(request),
     );
-    return SignInResponseModel.fromJson(result);
+    return AuthResponseModel.fromJson(result);
+  }
+
+  Future<AuthResponseModel> signUp(
+      {@required SignUpRequestModel request}) async {
+    var result = await _helper.post(
+      endpoint: "register",
+      body: signUpRequestModelToJson(request),
+    );
+    return AuthResponseModel.fromJson(result);
   }
 }

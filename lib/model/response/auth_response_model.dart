@@ -1,8 +1,8 @@
 import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/response/metadata_model.dart';
 
-class SignInResponseModel {
-  SignInResponseModel({
+class AuthResponseModel {
+  AuthResponseModel({
     this.meta,
     this.data,
   });
@@ -10,8 +10,8 @@ class SignInResponseModel {
   MetadataModel meta;
   SignInResponseData data;
 
-  factory SignInResponseModel.fromJson(Map<String, dynamic> json) =>
-      SignInResponseModel(
+  factory AuthResponseModel.fromJson(Map<String, dynamic> json) =>
+      AuthResponseModel(
         meta:
             json["meta"] == null ? null : MetadataModel.fromJson(json["meta"]),
         data: json["data"] == null

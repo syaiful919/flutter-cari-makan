@@ -7,7 +7,7 @@ import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:carimakan/model/response/sign_in_response_model.dart';
+import 'package:carimakan/model/response/auth_response_model.dart';
 import 'package:carimakan/repository/transaction_repository.dart';
 
 class SignInViewModel extends BaseViewModel {
@@ -48,10 +48,22 @@ class SignInViewModel extends BaseViewModel {
   Future<void> signIn() async {
     try {
       toggleTryingToSignIn();
-      SignInResponseModel response = await _userRepo.signIn(
-        request: SignInRequestModel(email: _email, password: _password),
-      );
-      afterSignIn(response);
+      if (_email.isEmpty) {
+        _flush.showFlushbar(
+          context: _pageContext,
+          message: "email can't be empty",
+        );
+      } else if (_password.isEmpty) {
+        _flush.showFlushbar(
+          context: _pageContext,
+          message: "password can't be empty",
+        );
+      } else {
+        AuthResponseModel response = await _userRepo.signIn(
+          request: SignInRequestModel(email: _email, password: _password),
+        );
+        afterSignIn(response);
+      }
     } catch (e) {
       print(">>> sign in error $e");
       _flush.showFlushbar(context: _pageContext, message: "Sign in failed");
@@ -60,7 +72,7 @@ class SignInViewModel extends BaseViewModel {
     }
   }
 
-  void afterSignIn(SignInResponseModel response) {
+  void afterSignIn(AuthResponseModel response) {
     _userRepo.saveUserToken(response.data.accessToken);
     _userRepo.saveUserData(response.data.user);
     _userRepo.setIsLogin(true);
@@ -70,4 +82,8 @@ class SignInViewModel extends BaseViewModel {
   }
 
   void goBack() => _nav.pop();
+
+  void goToSignUpPage() {
+    _nav.pushReplacementNamed(Routes.signUpPage);
+  }
 }

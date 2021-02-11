@@ -119,7 +119,7 @@ class InputLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: Gap.m),
+      padding: const EdgeInsets.only(bottom: Gap.xs),
       child: Text(title, style: TypoStyle.titleBlack500),
     );
   }

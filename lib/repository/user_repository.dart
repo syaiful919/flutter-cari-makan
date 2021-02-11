@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carimakan/model/request/sign_up_request_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/model/entity/user_model.dart';
 
@@ -11,14 +12,18 @@ import 'package:carimakan/model/request/sign_in_request_model.dart';
 
 import 'package:carimakan/locator/locator.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:carimakan/model/response/sign_in_response_model.dart';
+import 'package:carimakan/model/response/auth_response_model.dart';
 import 'package:carimakan/model/response/sign_out_response_model.dart';
 
 class UserRepository {
   final UserApi _api = UserApi();
 
-  Future<SignInResponseModel> signIn({@required SignInRequestModel request}) {
+  Future<AuthResponseModel> signIn({@required SignInRequestModel request}) {
     return _api.signIn(request: request);
+  }
+
+  Future<AuthResponseModel> signUp({@required SignUpRequestModel request}) {
+    return _api.signUp(request: request);
   }
 
   Future<UserResponseModel> getUserDataRemote({@required String token}) {
