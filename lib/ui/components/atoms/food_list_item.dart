@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/model/entity/food_model.dart';
-import 'package:carimakan/ui/components/atom/rating_stars.dart';
+import 'package:carimakan/ui/components/atoms/rating_stars.dart';
 import 'package:carimakan/extension/extended_num.dart';
 
 class FoodListItem extends StatelessWidget {

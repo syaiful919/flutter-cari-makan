@@ -6,4 +6,6 @@ class ProjectImages {
   static const String loveBurger = 'assets/images/love_burger.png';
   static const String foodWishes = 'assets/images/food_wishes.png';
   static const String bike = 'assets/images/bike.png';
+  static const String noInternet = 'assets/images/no_internet.png';
+  static const String somethingWrong = 'assets/images/error.png';
 }

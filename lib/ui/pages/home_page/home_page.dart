@@ -1,10 +1,12 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/food_model.dart';
-import 'package:carimakan/ui/components/base/inner_listview.dart';
-import 'package:carimakan/ui/components/base/loading.dart';
-import 'package:carimakan/ui/components/atom/custom_tabbar.dart';
-import 'package:carimakan/ui/components/atom/food_card.dart';
-import 'package:carimakan/ui/components/atom/food_list_item.dart';
+import 'package:carimakan/ui/components/bases/inner_listview.dart';
+import 'package:carimakan/ui/components/bases/loading.dart';
+import 'package:carimakan/ui/components/atoms/custom_tabbar.dart';
+import 'package:carimakan/ui/components/atoms/food_card.dart';
+import 'package:carimakan/ui/components/atoms/food_list_item.dart';
+import 'package:carimakan/ui/components/molecules/no_internet.dart';
+import 'package:carimakan/ui/components/molecules/something_error.dart';
 
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/utils/shared_value.dart';
@@ -27,14 +29,18 @@ class HomePage extends StatelessWidget {
       builder: (_, model, __) {
         return Scaffold(
           // backgroundColor: ProjectColor.white1,
-          body: ListView(
-            children: [
-              HeaderSection(),
-              FoodListSection(),
-              FoodTabSection(),
-              SizedBox(height: 80)
-            ],
-          ),
+          body: model.isNoConnection
+              ? NoInternet(reloadAction: () => model.firstLoad())
+              : model.isSomethingError
+                  ? SomethingError(reloadAction: () => model.firstLoad())
+                  : ListView(
+                      children: [
+                        HeaderSection(),
+                        FoodListSection(),
+                        FoodTabSection(),
+                        SizedBox(height: 80)
+                      ],
+                    ),
         );
       },
     );
@@ -135,7 +141,7 @@ class HeaderSection extends ViewModelWidget<HomeViewModel> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Food Market', style: TypoStyle.header1Black500),
+              Text('Cari Makan', style: TypoStyle.header1Black500),
               Text("Let's get some foods", style: TypoStyle.mainGrey300),
             ],
           ),

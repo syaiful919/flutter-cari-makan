@@ -1,4 +1,4 @@
-import 'package:carimakan/ui/components/base/loading.dart';
+import 'package:carimakan/ui/components/bases/loading.dart';
 import 'package:carimakan/utils/config.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/viewmodel/midtrans_viewmodel.dart';

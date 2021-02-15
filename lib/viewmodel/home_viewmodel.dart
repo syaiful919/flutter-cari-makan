@@ -3,17 +3,22 @@ import 'package:carimakan/model/entity/food_model.dart';
 import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/response/food_response_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
+import 'package:carimakan/service/connectivity/connectivity_service.dart';
+import 'package:carimakan/service/connectivity/connectivity_status.dart';
 
 import 'package:carimakan/service/navigation/navigation_service.dart';
 import 'package:carimakan/service/navigation/router.gr.dart';
 import 'package:carimakan/utils/project_exception.dart';
+import 'package:carimakan/utils/stream_key.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:carimakan/repository/food_repository.dart';
 import 'package:carimakan/repository/user_repository.dart';
 
-class HomeViewModel extends StreamViewModel {
+class HomeViewModel extends MultipleStreamViewModel {
   final _nav = locator<NavigationService>();
+  final _connectivity = locator<ConnectivityService>();
+
   final _foodRepo = locator<FoodRepository>();
   final _userRepo = locator<UserRepository>();
 
@@ -21,17 +26,44 @@ class HomeViewModel extends StreamViewModel {
   UserModel user;
   String userToken;
 
-  @override
-  Stream get stream => _userRepo.isLogin;
+  bool _isNoConnection = false;
+  bool get isNoConnection => _isNoConnection;
+  bool _isSomethingError = false;
+  bool get isSomethingError => _isSomethingError;
 
   @override
-  void onData(data) {
-    super.onData(data);
-    if (!data && user != null) clearUser();
-    if (data && user == null) getUserData();
+  Map<String, StreamData> get streamsMap => {
+        StreamKey.connectivity:
+            StreamData<ConnectivityStatus>(_connectivity.status),
+        StreamKey.authStatus: StreamData<bool>(_userRepo.isLogin),
+      };
+
+  @override
+  void onData(String key, data) {
+    super.onData(key, data);
+    if (key == StreamKey.authStatus) {
+      if (!data && user != null) clearUser();
+      if (data && user == null && !_isSomethingError && !_isNoConnection) {
+        getUserData();
+      }
+    }
+  }
+
+  void _resetError() {
+    _isNoConnection = false;
+    _isSomethingError = false;
+  }
+
+  void _checkError() {
+    if (dataMap[StreamKey.connectivity] == ConnectivityStatus.Offline) {
+      _isNoConnection = true;
+    } else {
+      _isSomethingError = true;
+    }
   }
 
   Future<void> firstLoad() async {
+    _resetError();
     runBusyFuture(getFood());
   }
 
@@ -65,6 +97,7 @@ class HomeViewModel extends StreamViewModel {
       clearUser();
     } catch (e) {
       print(">>> get user error: $e");
+      _checkError();
     } finally {
       notifyListeners();
     }
@@ -78,6 +111,8 @@ class HomeViewModel extends StreamViewModel {
       }
     } catch (e) {
       print(">>> get food error: $e");
+      _checkError();
+      notifyListeners();
     }
   }
 

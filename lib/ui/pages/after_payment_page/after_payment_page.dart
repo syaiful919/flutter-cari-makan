@@ -1,5 +1,5 @@
-import 'package:carimakan/ui/components/atom/illustration.dart';
-import 'package:carimakan/ui/components/base/loading.dart';
+import 'package:carimakan/ui/components/atoms/illustration.dart';
+import 'package:carimakan/ui/components/bases/loading.dart';
 import 'package:carimakan/utils/project_images.dart';
 import 'package:carimakan/utils/shared_value.dart';
 import 'package:carimakan/viewmodel/after_payment_viewmodel.dart';

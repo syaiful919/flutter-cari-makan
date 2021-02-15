@@ -1,6 +1,8 @@
 import 'package:carimakan/locator/locator.dart';
-import 'package:carimakan/ui/components/atom/custom_tabbar.dart';
-import 'package:carimakan/ui/components/base/loading.dart';
+import 'package:carimakan/ui/components/atoms/custom_tabbar.dart';
+import 'package:carimakan/ui/components/bases/loading.dart';
+import 'package:carimakan/ui/components/molecules/no_internet.dart';
+import 'package:carimakan/ui/components/molecules/something_error.dart';
 import 'package:carimakan/utils/project_images.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/viewmodel/profile_viewmodel.dart';
@@ -19,14 +21,21 @@ class ProfilePage extends StatelessWidget {
       onModelReady: (model) => model.firstLoad(),
       viewModelBuilder: () => locator<ProfileViewModel>(),
       builder: (_, model, __) => Scaffold(
-        body: model.user == null
-            ? Center(child: Loading())
-            : ListView(
-                children: <Widget>[
-                  HeaderSection(),
-                  BodySection(),
-                ],
-              ),
+        body: model.isNoConnection
+            ? NoInternet(reloadAction: () => model.getUser())
+            : model.isSomethingError
+                ? SomethingError(reloadAction: () => model.getUser())
+                : model.user == null
+                    ? Center(child: Loading())
+                    : RefreshIndicator(
+                        onRefresh: () => model.getUser(),
+                        child: ListView(
+                          children: <Widget>[
+                            HeaderSection(),
+                            BodySection(),
+                          ],
+                        ),
+                      ),
       ),
     );
   }

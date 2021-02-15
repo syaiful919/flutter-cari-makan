@@ -1,9 +1,9 @@
 import 'package:carimakan/model/entity/transaction_model.dart';
-import 'package:carimakan/ui/components/base/base_button.dart';
-import 'package:carimakan/ui/components/atom/detail_list_item.dart';
+import 'package:carimakan/ui/components/bases/base_button.dart';
+import 'package:carimakan/ui/components/atoms/detail_list_item.dart';
 
-import 'package:carimakan/ui/components/base/shrink_column.dart';
-import 'package:carimakan/ui/components/template/general.dart';
+import 'package:carimakan/ui/components/bases/shrink_column.dart';
+import 'package:carimakan/ui/components/templates/general.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/viewmodel/checkout_viewmodel.dart';
 import 'package:flutter/material.dart';

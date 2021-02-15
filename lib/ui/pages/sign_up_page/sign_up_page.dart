@@ -1,8 +1,8 @@
-import 'package:carimakan/ui/components/atom/image_picker_dialog.dart';
-import 'package:carimakan/ui/components/base/base_button.dart';
-import 'package:carimakan/ui/components/base/base_input.dart';
-import 'package:carimakan/ui/components/base/shrink_column.dart';
-import 'package:carimakan/ui/components/template/general.dart';
+import 'package:carimakan/ui/components/atoms/image_picker_dialog.dart';
+import 'package:carimakan/ui/components/bases/base_button.dart';
+import 'package:carimakan/ui/components/bases/base_input.dart';
+import 'package:carimakan/ui/components/bases/shrink_column.dart';
+import 'package:carimakan/ui/components/templates/general.dart';
 import 'package:carimakan/utils/project_images.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/viewmodel/sign_up_viewmodel.dart';

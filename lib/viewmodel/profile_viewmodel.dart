@@ -2,32 +2,62 @@ import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/user_model.dart';
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/repository/user_repository.dart';
+import 'package:carimakan/service/connectivity/connectivity_service.dart';
+import 'package:carimakan/service/connectivity/connectivity_status.dart';
 import 'package:carimakan/service/flushbar/flushbar_service.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
 import 'package:carimakan/service/navigation/router.gr.dart';
-import 'package:carimakan/ui/components/atom/dialog.dart';
+import 'package:carimakan/ui/components/atoms/dialog.dart';
+import 'package:carimakan/utils/stream_key.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:carimakan/dictionary/message_dictionary.dart';
 
-class ProfileViewModel extends StreamViewModel {
+class ProfileViewModel extends MultipleStreamViewModel {
   final _nav = locator<NavigationService>();
+  final _connectivity = locator<ConnectivityService>();
+  final _flush = locator<FlushbarService>();
   final _userRepo = locator<UserRepository>();
   final _mainVM = locator<MainViewModel>();
-  final _flush = locator<FlushbarService>();
 
   UserModel user;
   String userToken;
 
-  @override
-  Stream get stream => _userRepo.isLogin;
+  bool _isNoConnection = false;
+  bool get isNoConnection => _isNoConnection;
+  bool _isSomethingError = false;
+  bool get isSomethingError => _isSomethingError;
 
   @override
-  void onData(data) {
-    super.onData(data);
-    if (!data && user != null) clearUser();
-    if (data && user == null) getUser();
+  Map<String, StreamData> get streamsMap => {
+        StreamKey.connectivity:
+            StreamData<ConnectivityStatus>(_connectivity.status),
+        StreamKey.authStatus: StreamData<bool>(_userRepo.isLogin),
+      };
+
+  @override
+  void onData(String key, data) {
+    super.onData(key, data);
+    if (key == StreamKey.authStatus) {
+      if (!data && user != null) clearUser();
+      if (data && user == null && !_isSomethingError && !_isNoConnection) {
+        getUser();
+      }
+    }
+  }
+
+  void _resetError() {
+    _isNoConnection = false;
+    _isSomethingError = false;
+  }
+
+  void _checkError() {
+    if (dataMap[StreamKey.connectivity] == ConnectivityStatus.Offline) {
+      _isNoConnection = true;
+    } else {
+      _isSomethingError = true;
+    }
   }
 
   void clearUser() {
@@ -40,6 +70,7 @@ class ProfileViewModel extends StreamViewModel {
 
   Future<void> getUser() async {
     try {
+      _resetError();
       if (userToken == null) await getUserToken();
       user = _userRepo.getUserData();
       if (user == null) {
@@ -56,6 +87,9 @@ class ProfileViewModel extends StreamViewModel {
       }
     } catch (e) {
       print(">>> get user data error $e");
+      _checkError();
+    } finally {
+      notifyListeners();
     }
   }
 

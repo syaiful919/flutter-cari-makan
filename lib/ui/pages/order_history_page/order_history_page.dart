@@ -1,8 +1,9 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/entity/transaction_model.dart';
-import 'package:carimakan/ui/components/atom/custom_tabbar.dart';
-import 'package:carimakan/ui/components/base/inner_listview.dart';
-import 'package:carimakan/ui/components/base/loading.dart';
+import 'package:carimakan/ui/components/atoms/custom_tabbar.dart';
+import 'package:carimakan/ui/components/bases/inner_listview.dart';
+import 'package:carimakan/ui/components/bases/loading.dart';
+import 'package:carimakan/ui/components/molecules/no_internet.dart';
 import 'package:carimakan/utils/project_images.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:carimakan/utils/shared_value.dart';
@@ -10,9 +11,10 @@ import 'package:carimakan/viewmodel/order_history_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:stacked/stacked.dart';
-import 'package:carimakan/ui/components/atom/illustration.dart';
+import 'package:carimakan/ui/components/atoms/illustration.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
-import 'package:carimakan/ui/components/atom/order_list_item.dart';
+import 'package:carimakan/ui/components/atoms/order_list_item.dart';
+import 'package:carimakan/ui/components/molecules/something_error.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   @override
@@ -24,28 +26,33 @@ class OrderHistoryPage extends StatelessWidget {
       onModelReady: (model) => model.firstLoad(),
       viewModelBuilder: () => locator<OrderHistoryViewModel>(),
       builder: (_, model, __) => Scaffold(
-        body: model.transactions == null
-            ? Center(child: Loading())
-            : model.transactions.length == 0
-                ? Container(
-                    color: ProjectColor.white1,
-                    child: Illustration(
-                      title: 'Ouch! Hungry',
-                      subtitle: 'Seems you like have not\nordered any food yet',
-                      picturePath: ProjectImages.loveBurger,
-                      buttonTap1: () => model.goToHome(),
-                      buttonTitle1: 'Find Foods',
-                    ),
-                  )
-                : RefreshIndicator(
-                    onRefresh: () => model.firstLoad(),
-                    child: ListView(
-                      children: <Widget>[
-                        HeaderSection(),
-                        BodySection(),
-                      ],
-                    ),
-                  ),
+        body: model.isNoConnection
+            ? NoInternet(reloadAction: () => model.firstLoad())
+            : model.isSomethingError
+                ? SomethingError(reloadAction: () => model.firstLoad())
+                : model.transactions == null
+                    ? Center(child: Loading())
+                    : model.transactions.length == 0
+                        ? Container(
+                            color: ProjectColor.white1,
+                            child: Illustration(
+                              title: 'Ouch! Hungry',
+                              subtitle:
+                                  'Seems you like have not\nordered any food yet',
+                              picturePath: ProjectImages.loveBurger,
+                              buttonTap1: () => model.goToHome(),
+                              buttonTitle1: 'Find Foods',
+                            ),
+                          )
+                        : RefreshIndicator(
+                            onRefresh: () => model.firstLoad(),
+                            child: ListView(
+                              children: <Widget>[
+                                HeaderSection(),
+                                BodySection(),
+                              ],
+                            ),
+                          ),
       ),
     );
   }

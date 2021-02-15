@@ -1,5 +1,5 @@
-import 'package:carimakan/ui/components/base/base_button.dart';
-import 'package:carimakan/ui/components/base/shrink_column.dart';
+import 'package:carimakan/ui/components/bases/base_button.dart';
+import 'package:carimakan/ui/components/bases/shrink_column.dart';
 import 'package:carimakan/utils/project_theme.dart';
 import 'package:flutter/material.dart';
 
