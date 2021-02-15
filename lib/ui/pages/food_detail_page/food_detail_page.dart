@@ -21,7 +21,7 @@ class FoodDetailPage extends StatelessWidget {
       builder: (_, model, __) => Scaffold(
         body: Stack(
           children: [
-            Container(color: ProjectColor.main),
+            Container(color: ProjectColor.white1),
             SafeArea(child: Container(color: ProjectColor.white1)),
             SafeArea(
               child: Container(
