@@ -79,8 +79,7 @@ class AccountTabSection extends ViewModelWidget<ProfileViewModel> {
         ),
         ProfileItem(
           title: "Home Address",
-          // onTap: ()=>model.goToAddressPage(),
-          onTap: () => model.showUnderDevelopmentMessage(context),
+          onTap: () => model.goToAddressPage(),
         ),
         ProfileItem(
           title: "Log out",

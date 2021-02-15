@@ -11,6 +11,7 @@ import 'package:carimakan/service/shared_preferences/pref_keys.dart';
 import 'package:carimakan/service/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:carimakan/model/request/sign_in_request_model.dart';
+import 'package:carimakan/model/request/update_user_request_model.dart';
 
 import 'package:carimakan/locator/locator.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,6 +28,13 @@ class UserRepository {
 
   Future<AuthResponseModel> signUp({@required SignUpRequestModel request}) {
     return _api.signUp(request: request);
+  }
+
+  Future<UserResponseModel> updateUser({
+    @required UpdateUserRequestModel request,
+    @required String token,
+  }) {
+    return _api.updateUser(request: request, token: token);
   }
 
   Future<String> uploadPhotoProfile({

@@ -1,6 +1,8 @@
 import 'package:carimakan/locator/locator.dart';
 import 'package:carimakan/model/request/sign_in_request_model.dart';
 import 'package:carimakan/model/request/sign_up_request_model.dart';
+import 'package:carimakan/model/request/update_user_request_model.dart';
+
 import 'package:carimakan/model/response/user_response_model.dart';
 import 'package:carimakan/network/api/http_client_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -36,5 +38,17 @@ class UserApi {
       body: signUpRequestModelToJson(request),
     );
     return AuthResponseModel.fromJson(result);
+  }
+
+  Future<UserResponseModel> updateUser({
+    @required UpdateUserRequestModel request,
+    @required String token,
+  }) async {
+    var result = await _helper.post(
+      endpoint: "user",
+      body: updateUserRequestModelToJson(request),
+      bearerToken: token,
+    );
+    return UserResponseModel.fromJson(result);
   }
 }

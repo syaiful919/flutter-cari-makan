@@ -122,7 +122,7 @@ class ProfileViewModel extends MultipleStreamViewModel {
   }
 
   void goToAddressPage() {
-    //
+    _nav.pushNamed(Routes.editAddressPage);
   }
 
   void goToEditProfilePage() {
