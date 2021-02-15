@@ -33,13 +33,16 @@ class HomePage extends StatelessWidget {
               ? NoInternet(reloadAction: () => model.firstLoad())
               : model.isSomethingError
                   ? SomethingError(reloadAction: () => model.firstLoad())
-                  : ListView(
-                      children: [
-                        HeaderSection(),
-                        FoodListSection(),
-                        FoodTabSection(),
-                        SizedBox(height: 80)
-                      ],
+                  : RefreshIndicator(
+                      onRefresh: () => model.firstLoad(),
+                      child: ListView(
+                        children: [
+                          HeaderSection(),
+                          FoodListSection(),
+                          FoodTabSection(),
+                          SizedBox(height: 80)
+                        ],
+                      ),
                     ),
         );
       },

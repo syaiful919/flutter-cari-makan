@@ -21,6 +21,19 @@ import 'package:carimakan/model/response/sign_out_response_model.dart';
 class UserRepository {
   final UserApi _api = UserApi();
   final AttachmentApi _attachmentApi = AttachmentApi();
+  final _sp = locator<SharedPreferencesService>();
+  final BehaviorSubject<bool> _authController = BehaviorSubject<bool>();
+  final BehaviorSubject<bool> _userUpdatedController = BehaviorSubject<bool>();
+
+  UserRepository() {
+    _authController.add(false);
+    _userUpdatedController.add(false);
+  }
+
+  void setIsLogin(bool val) => _authController.sink.add(val);
+  Stream<bool> get isLogin => _authController.stream;
+  void setIsProfileUpdated(bool val) => _userUpdatedController.sink.add(val);
+  Stream<bool> get isProfileUpdated => _userUpdatedController.stream;
 
   Future<AuthResponseModel> signIn({@required SignInRequestModel request}) {
     return _api.signIn(request: request);
@@ -47,16 +60,6 @@ class UserRepository {
   Future<UserResponseModel> getUserDataRemote({@required String token}) {
     return _api.getUser(token: token);
   }
-
-  final _sp = locator<SharedPreferencesService>();
-  final BehaviorSubject<bool> _authController = BehaviorSubject<bool>();
-
-  UserRepository() {
-    _authController.add(false);
-  }
-
-  void setIsLogin(bool val) => _authController.sink.add(val);
-  Stream<bool> get isLogin => _authController.stream;
 
   void saveUserData(UserModel userData) {
     _sp.putString(PrefKey.userData, json.encode(userData.toJson()));

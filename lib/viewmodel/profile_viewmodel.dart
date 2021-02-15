@@ -125,8 +125,12 @@ class ProfileViewModel extends MultipleStreamViewModel {
     _nav.pushNamed(Routes.editAddressPage);
   }
 
-  void goToEditProfilePage() {
-    _nav.pushNamed(Routes.editProfilePage);
+  void goToEditProfilePage() async {
+    var result = await _nav.pushNamed(Routes.editProfilePage);
+    if (result != null && result is UserModel) {
+      user = result;
+      notifyListeners();
+    }
   }
 
   void showUnderDevelopmentMessage(BuildContext context) {

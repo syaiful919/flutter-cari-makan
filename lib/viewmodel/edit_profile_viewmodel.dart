@@ -8,8 +8,6 @@ import 'package:carimakan/repository/user_repository.dart';
 import 'package:carimakan/service/flushbar/flushbar_service.dart';
 import 'package:carimakan/service/image_picker/image_picker_service.dart';
 import 'package:carimakan/service/navigation/navigation_service.dart';
-import 'package:carimakan/service/navigation/router.gr.dart';
-import 'package:carimakan/viewmodel/main_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:carimakan/extension/extended_string.dart';
@@ -20,7 +18,6 @@ class EditProfileViewModel extends BaseViewModel {
   final _flush = locator<FlushbarService>();
 
   final _userRepo = locator<UserRepository>();
-  final _mainVM = locator<MainViewModel>();
 
   BuildContext _pageContext;
   String _userToken;
@@ -124,8 +121,8 @@ class EditProfileViewModel extends BaseViewModel {
     }
 
     _userRepo.saveUserData(_user);
-    _mainVM.setIndex(0);
-    _nav.pushNamedAndRemoveUntil(Routes.mainPage);
+    _userRepo.setIsProfileUpdated(true);
+    goBack();
   }
 
   Future<String> uploadImage() async {
@@ -146,5 +143,5 @@ class EditProfileViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void goBack() => _nav.pop();
+  void goBack() => _nav.pop(params: _user);
 }

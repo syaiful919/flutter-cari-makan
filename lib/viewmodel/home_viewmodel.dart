@@ -36,6 +36,7 @@ class HomeViewModel extends MultipleStreamViewModel {
         StreamKey.connectivity:
             StreamData<ConnectivityStatus>(_connectivity.status),
         StreamKey.authStatus: StreamData<bool>(_userRepo.isLogin),
+        StreamKey.profileUpdated: StreamData<bool>(_userRepo.isProfileUpdated),
       };
 
   @override
@@ -44,6 +45,11 @@ class HomeViewModel extends MultipleStreamViewModel {
     if (key == StreamKey.authStatus) {
       if (!data && user != null) clearUser();
       if (data && user == null && !_isSomethingError && !_isNoConnection) {
+        getUserData();
+      }
+    } else if (key == StreamKey.profileUpdated) {
+      if (data) {
+        _userRepo.setIsProfileUpdated(false);
         getUserData();
       }
     }
