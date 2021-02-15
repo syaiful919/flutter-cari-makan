@@ -74,8 +74,7 @@ class AccountTabSection extends ViewModelWidget<ProfileViewModel> {
       children: <Widget>[
         ProfileItem(
           title: 'Edit Profile',
-          // onTap: ()=>model.goToEditProfilePage(),
-          onTap: () => model.showUnderDevelopmentMessage(context),
+          onTap: () => model.goToEditProfilePage(),
         ),
         ProfileItem(
           title: "Home Address",

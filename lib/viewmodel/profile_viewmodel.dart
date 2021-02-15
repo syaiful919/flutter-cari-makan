@@ -126,7 +126,7 @@ class ProfileViewModel extends MultipleStreamViewModel {
   }
 
   void goToEditProfilePage() {
-    //
+    _nav.pushNamed(Routes.editProfilePage);
   }
 
   void showUnderDevelopmentMessage(BuildContext context) {
