@@ -15,7 +15,7 @@ String callbackUrl() {
   if (ProjectConfig.useProd == true) {
     return 'foodmarket-backend.buildwithangga.id/';
   } else {
-    return "vast-tundra-16919.herokuapp.com/";
+    return "secure-tor-45980.herokuapp.com/";
   }
 }
 
@@ -23,7 +23,7 @@ String storageUrl() {
   if (ProjectConfig.useProd == true) {
     return 'http://foodmarket-backend.buildwithangga.id/storage/';
   } else {
-    return "http://vast-tundra-16919.herokuapp.com/storage/";
+    return "http://secure-tor-45980.herokuapp.com/storage/";
   }
 }
 
@@ -31,6 +31,6 @@ String baseUrl() {
   if (ProjectConfig.useProd == true) {
     return 'https://foodmarket-backend.buildwithangga.id/api/';
   } else {
-    return "http://vast-tundra-16919.herokuapp.com/api/";
+    return "http://secure-tor-45980.herokuapp.com/api/";
   }
 }
